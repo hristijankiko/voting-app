@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+
 let Poll = mongoose.model('Poll');
 
 let sendJsonResponse = function(res, status, content) {
@@ -15,7 +16,7 @@ export function pollsList(req, res){
     });
 }
 
-module.exports.createPoll = function(req, res){
+export function createPoll(req, res){
     let choices = [];
     let formChoices;
 
@@ -42,7 +43,7 @@ module.exports.createPoll = function(req, res){
     });
 }
 
-module.exports.deletePoll = function(req, res){
+export function deletePoll(req, res){
     if(!req.params.pollid){
         sendJsonResponse(res, 400, {error: 'Poll id is required'});
         return;
@@ -60,7 +61,7 @@ module.exports.deletePoll = function(req, res){
     });
 }
 
-module.exports.getSpecificPoll = function(req, res){
+export function getSpecificPoll(req, res){
     if(!req.params.pollid){
         sendJsonResponse(res, 400, {error: 'Poll id is required.'});
         return;
@@ -70,7 +71,7 @@ module.exports.getSpecificPoll = function(req, res){
     });
 }
 
-module.exports.castVote = function(req, res){
+export function castVote(req, res){
     if(!req.body){
         sendJsonResponse(res, 400, {error: 'Voted choice missing.'});
         return;

@@ -4,6 +4,10 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.pollsList = pollsList;
+exports.createPoll = createPoll;
+exports.deletePoll = deletePoll;
+exports.getSpecificPoll = getSpecificPoll;
+exports.castVote = castVote;
 
 var _mongoose = require('mongoose');
 
@@ -27,7 +31,7 @@ function pollsList(req, res) {
     });
 }
 
-module.exports.createPoll = function (req, res) {
+function createPoll(req, res) {
     var choices = [];
     var formChoices = void 0;
 
@@ -52,9 +56,9 @@ module.exports.createPoll = function (req, res) {
         }
         sendJsonResponse(res, 201, poll);
     });
-};
+}
 
-module.exports.deletePoll = function (req, res) {
+function deletePoll(req, res) {
     if (!req.params.pollid) {
         sendJsonResponse(res, 400, { error: 'Poll id is required' });
         return;
@@ -70,9 +74,9 @@ module.exports.deletePoll = function (req, res) {
         }
         sendJsonResponse(res, 200, poll);
     });
-};
+}
 
-module.exports.getSpecificPoll = function (req, res) {
+function getSpecificPoll(req, res) {
     if (!req.params.pollid) {
         sendJsonResponse(res, 400, { error: 'Poll id is required.' });
         return;
@@ -80,9 +84,9 @@ module.exports.getSpecificPoll = function (req, res) {
     Poll.findById(req.params.pollid, function (err, poll) {
         sendJsonResponse(res, 200, poll);
     });
-};
+}
 
-module.exports.castVote = function (req, res) {
+function castVote(req, res) {
     if (!req.body) {
         sendJsonResponse(res, 400, { error: 'Voted choice missing.' });
         return;
@@ -103,4 +107,4 @@ module.exports.castVote = function (req, res) {
             sendJsonResponse(res, 200, poll);
         });
     });
-};
+}

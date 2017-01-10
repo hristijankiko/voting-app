@@ -12,10 +12,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.use('/api', routesApi);
 
-app.get('/', function(req, res){
-    res.send("Show all polls");
-});
-
 app.listen(3000 || process.env.PORT, function(req, res){
     console.log("Server is listening at port 3000");
 });

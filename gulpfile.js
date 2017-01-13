@@ -1,6 +1,7 @@
 const gulp = require('gulp');
 const nodemon = require('gulp-nodemon');
 const babel = require('gulp-babel');
+const webpack = require('webpack-stream');
 
 gulp.task('default',['babel'],  function(){
     nodemon({
@@ -19,4 +20,10 @@ gulp.task('babel', function(){
         ignore: ['*.pug']
     }))
     .pipe(gulp.dest("dist"));
+});
+
+gulp.task('webpack', function(){
+    return gulp.src(["src/client/app.js"])
+    .pipe(webpack(require("./webpack.config.js")))
+    .pipe(gulp.dest("dist/public"))
 });

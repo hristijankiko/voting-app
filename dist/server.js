@@ -11,6 +11,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var express = require('express');
 
 var app = express();
+var path = require('path');
 
 // Connect to database
 
@@ -20,6 +21,7 @@ var routesApi = require('./api/routes/index');
 app.set('view engine', 'pug');
 app.set('views', './dist/client');
 
+app.use('/static', express.static(path.join(__dirname, 'public')));
 app.use(_bodyParser2.default.json());
 app.use(_bodyParser2.default.urlencoded({ extended: true }));
 

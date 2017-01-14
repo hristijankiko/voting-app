@@ -14,7 +14,7 @@ gulp.task('default',['babel'],  function(){
 });
 
 gulp.task('babel', function(){
-    return gulp.src(["src/**", "!src/client/*.js"])
+    return gulp.src(["src/**", "!src/client/**/*.js"])
     .pipe(babel({
         presets: ['es2015'],
         ignore: ['*.pug']

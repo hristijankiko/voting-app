@@ -17,7 +17,7 @@ gulp.task('babel', function(){
     return gulp.src(["src/**", "!src/client/**/*.js"])
     .pipe(babel({
         presets: ['es2015'],
-        ignore: ['*.pug']
+        ignore: ['*.pug', '*.ico']
     }))
     .pipe(gulp.dest("dist"));
 });

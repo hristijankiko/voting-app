@@ -52,9 +52,9 @@
 
 	var _reactDom = __webpack_require__(32);
 
-	var _redux = __webpack_require__(179);
+	var _redux = __webpack_require__(178);
 
-	var _App = __webpack_require__(178);
+	var _App = __webpack_require__(199);
 
 	var _App2 = _interopRequireDefault(_App);
 
@@ -21535,62 +21535,32 @@
 /* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var App = function App() {
-	  return _react2.default.createElement(
-	    'div',
-	    null,
-	    _react2.default.createElement(
-	      'h1',
-	      null,
-	      'App component'
-	    )
-	  );
-	};
-
-	exports.default = App;
-
-/***/ },
-/* 179 */
-/***/ function(module, exports, __webpack_require__) {
-
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
 	exports.__esModule = true;
 	exports.compose = exports.applyMiddleware = exports.bindActionCreators = exports.combineReducers = exports.createStore = undefined;
 
-	var _createStore = __webpack_require__(180);
+	var _createStore = __webpack_require__(179);
 
 	var _createStore2 = _interopRequireDefault(_createStore);
 
-	var _combineReducers = __webpack_require__(195);
+	var _combineReducers = __webpack_require__(194);
 
 	var _combineReducers2 = _interopRequireDefault(_combineReducers);
 
-	var _bindActionCreators = __webpack_require__(197);
+	var _bindActionCreators = __webpack_require__(196);
 
 	var _bindActionCreators2 = _interopRequireDefault(_bindActionCreators);
 
-	var _applyMiddleware = __webpack_require__(198);
+	var _applyMiddleware = __webpack_require__(197);
 
 	var _applyMiddleware2 = _interopRequireDefault(_applyMiddleware);
 
-	var _compose = __webpack_require__(199);
+	var _compose = __webpack_require__(198);
 
 	var _compose2 = _interopRequireDefault(_compose);
 
-	var _warning = __webpack_require__(196);
+	var _warning = __webpack_require__(195);
 
 	var _warning2 = _interopRequireDefault(_warning);
 
@@ -21616,7 +21586,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 180 */
+/* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21627,11 +21597,11 @@
 	exports.ActionTypes = undefined;
 	exports['default'] = createStore;
 
-	var _isPlainObject = __webpack_require__(181);
+	var _isPlainObject = __webpack_require__(180);
 
 	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-	var _symbolObservable = __webpack_require__(191);
+	var _symbolObservable = __webpack_require__(190);
 
 	var _symbolObservable2 = _interopRequireDefault(_symbolObservable);
 
@@ -21886,14 +21856,14 @@
 	}
 
 /***/ },
-/* 181 */
+/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var baseGetTag = __webpack_require__(182),
-	    getPrototype = __webpack_require__(188),
-	    isObjectLike = __webpack_require__(190);
+	var baseGetTag = __webpack_require__(181),
+	    getPrototype = __webpack_require__(187),
+	    isObjectLike = __webpack_require__(189);
 
 	/** `Object#toString` result references. */
 	var objectTag = '[object Object]';
@@ -21954,14 +21924,14 @@
 	module.exports = isPlainObject;
 
 /***/ },
-/* 182 */
+/* 181 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _Symbol = __webpack_require__(183),
-	    getRawTag = __webpack_require__(186),
-	    objectToString = __webpack_require__(187);
+	var _Symbol = __webpack_require__(182),
+	    getRawTag = __webpack_require__(185),
+	    objectToString = __webpack_require__(186);
 
 	/** `Object#toString` result references. */
 	var nullTag = '[object Null]',
@@ -21987,12 +21957,12 @@
 	module.exports = baseGetTag;
 
 /***/ },
-/* 183 */
+/* 182 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var root = __webpack_require__(184);
+	var root = __webpack_require__(183);
 
 	/** Built-in value references. */
 	var _Symbol = root.Symbol;
@@ -22000,14 +21970,14 @@
 	module.exports = _Symbol;
 
 /***/ },
-/* 184 */
+/* 183 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-	var freeGlobal = __webpack_require__(185);
+	var freeGlobal = __webpack_require__(184);
 
 	/** Detect free variable `self`. */
 	var freeSelf = (typeof self === 'undefined' ? 'undefined' : _typeof(self)) == 'object' && self && self.Object === Object && self;
@@ -22018,7 +21988,7 @@
 	module.exports = root;
 
 /***/ },
-/* 185 */
+/* 184 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {'use strict';
@@ -22032,12 +22002,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 186 */
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var _Symbol = __webpack_require__(183);
+	var _Symbol = __webpack_require__(182);
 
 	/** Used for built-in method references. */
 	var objectProto = Object.prototype;
@@ -22085,7 +22055,7 @@
 	module.exports = getRawTag;
 
 /***/ },
-/* 187 */
+/* 186 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -22114,12 +22084,12 @@
 	module.exports = objectToString;
 
 /***/ },
-/* 188 */
+/* 187 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var overArg = __webpack_require__(189);
+	var overArg = __webpack_require__(188);
 
 	/** Built-in value references. */
 	var getPrototype = overArg(Object.getPrototypeOf, Object);
@@ -22127,7 +22097,7 @@
 	module.exports = getPrototype;
 
 /***/ },
-/* 189 */
+/* 188 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -22149,7 +22119,7 @@
 	module.exports = overArg;
 
 /***/ },
-/* 190 */
+/* 189 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -22187,15 +22157,15 @@
 	module.exports = isObjectLike;
 
 /***/ },
-/* 191 */
+/* 190 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	module.exports = __webpack_require__(192);
+	module.exports = __webpack_require__(191);
 
 /***/ },
-/* 192 */
+/* 191 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, module) {'use strict';
@@ -22204,7 +22174,7 @@
 	  value: true
 	});
 
-	var _ponyfill = __webpack_require__(194);
+	var _ponyfill = __webpack_require__(193);
 
 	var _ponyfill2 = _interopRequireDefault(_ponyfill);
 
@@ -22228,10 +22198,10 @@
 
 	var result = (0, _ponyfill2['default'])(root);
 	exports['default'] = result;
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(193)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(192)(module)))
 
 /***/ },
-/* 193 */
+/* 192 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -22248,7 +22218,7 @@
 	};
 
 /***/ },
-/* 194 */
+/* 193 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -22276,7 +22246,7 @@
 	};
 
 /***/ },
-/* 195 */
+/* 194 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -22284,13 +22254,13 @@
 	exports.__esModule = true;
 	exports['default'] = combineReducers;
 
-	var _createStore = __webpack_require__(180);
+	var _createStore = __webpack_require__(179);
 
-	var _isPlainObject = __webpack_require__(181);
+	var _isPlainObject = __webpack_require__(180);
 
 	var _isPlainObject2 = _interopRequireDefault(_isPlainObject);
 
-	var _warning = __webpack_require__(196);
+	var _warning = __webpack_require__(195);
 
 	var _warning2 = _interopRequireDefault(_warning);
 
@@ -22426,7 +22396,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 196 */
+/* 195 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -22456,7 +22426,7 @@
 	}
 
 /***/ },
-/* 197 */
+/* 196 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -22514,7 +22484,7 @@
 	}
 
 /***/ },
-/* 198 */
+/* 197 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -22533,7 +22503,7 @@
 
 	exports['default'] = applyMiddleware;
 
-	var _compose = __webpack_require__(199);
+	var _compose = __webpack_require__(198);
 
 	var _compose2 = _interopRequireDefault(_compose);
 
@@ -22587,7 +22557,7 @@
 	}
 
 /***/ },
-/* 199 */
+/* 198 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -22628,6 +22598,112 @@
 	    }, last.apply(undefined, arguments));
 	  };
 	}
+
+/***/ },
+/* 199 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _Navigation = __webpack_require__(200);
+
+	var _Navigation2 = _interopRequireDefault(_Navigation);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var App = function App() {
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement(_Navigation2.default, null)
+	  );
+	};
+
+	exports.default = App;
+
+/***/ },
+/* 200 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Navigation = function Navigation() {
+	  return _react2.default.createElement(
+	    "nav",
+	    { className: "navbar navbar-default" },
+	    _react2.default.createElement(
+	      "div",
+	      { className: "container-fluid" },
+	      _react2.default.createElement(
+	        "div",
+	        { className: "navbar-header" },
+	        _react2.default.createElement(
+	          "button",
+	          { type: "button", className: "navbar-toggle collapsed", "data-toggle": "collapse", "data-target": "#bs-example-navbar-collapse-1", "aria-expanded": "false" },
+	          _react2.default.createElement(
+	            "span",
+	            { className: "sr-only" },
+	            "Toggle navigation"
+	          ),
+	          _react2.default.createElement("span", { className: "icon-bar" }),
+	          _react2.default.createElement("span", { className: "icon-bar" }),
+	          _react2.default.createElement("span", { className: "icon-bar" })
+	        ),
+	        _react2.default.createElement(
+	          "a",
+	          { className: "navbar-brand", href: "#" },
+	          "Voting app"
+	        )
+	      ),
+	      _react2.default.createElement(
+	        "div",
+	        { className: "collapse navbar-collapse", id: "bs-example-navbar-collapse-1" },
+	        _react2.default.createElement(
+	          "ul",
+	          { className: "nav navbar-nav navbar-right" },
+	          _react2.default.createElement(
+	            "li",
+	            null,
+	            _react2.default.createElement(
+	              "a",
+	              { href: "#" },
+	              "Home"
+	            )
+	          ),
+	          _react2.default.createElement(
+	            "li",
+	            null,
+	            _react2.default.createElement(
+	              "a",
+	              { href: "#" },
+	              "Log in"
+	            )
+	          )
+	        )
+	      )
+	    )
+	  );
+	};
+
+	exports.default = Navigation;
 
 /***/ }
 /******/ ]);

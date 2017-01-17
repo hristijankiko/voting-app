@@ -68,6 +68,10 @@
 
 	var _PollInfo2 = _interopRequireDefault(_PollInfo);
 
+	var _PollList = __webpack_require__(282);
+
+	var _PollList2 = _interopRequireDefault(_PollList);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var initialState = {};
@@ -101,8 +105,8 @@
 	  _react2.default.createElement(
 	    _reactRouter.Route,
 	    { path: '/', component: _App2.default },
-	    _react2.default.createElement(_reactRouter.IndexRoute, { component: _PollInfo2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: 'asd', component: _PollInfo2.default })
+	    _react2.default.createElement(_reactRouter.IndexRoute, { component: _PollList2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: '/:pollid', component: _PollInfo2.default })
 	  )
 	), document.getElementById('root'));
 
@@ -29330,7 +29334,8 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var App = function App() {
+	var App = function App(_ref) {
+	  var children = _ref.children;
 	  return _react2.default.createElement(
 	    'div',
 	    null,
@@ -29339,7 +29344,8 @@
 	      _reactRouter.Link,
 	      { to: '/asd' },
 	      'PollInfo'
-	    )
+	    ),
+	    children
 	  );
 	};
 
@@ -29446,6 +29452,56 @@
 	};
 
 	exports.default = PollInfo;
+
+/***/ },
+/* 282 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var PollList = function PollList() {
+	  return _react2.default.createElement(
+	    "ul",
+	    { className: "list-group" },
+	    _react2.default.createElement(
+	      "li",
+	      { className: "list-group-item col-md-4" },
+	      "Cras justo odio"
+	    ),
+	    _react2.default.createElement(
+	      "li",
+	      { className: "list-group-item col-md-4" },
+	      "Dapibus ac facilisis in"
+	    ),
+	    _react2.default.createElement(
+	      "li",
+	      { className: "list-group-item col-md-4" },
+	      "Morbi leo risus"
+	    ),
+	    _react2.default.createElement(
+	      "li",
+	      { className: "list-group-item col-md-4" },
+	      "Porta ac consectetur ac"
+	    ),
+	    _react2.default.createElement(
+	      "li",
+	      { className: "list-group-item col-md-4" },
+	      "Vestibulum at eros"
+	    )
+	  );
+	};
+
+	exports.default = PollList;
 
 /***/ }
 /******/ ]);

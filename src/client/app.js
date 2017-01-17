@@ -5,6 +5,7 @@ import axios from 'axios';
 import {createStore} from 'redux';
 import App from './components/App';
 import PollInfo from './components/PollInfo';
+import PollList from './components/PollList';
 
 const initialState = {};
 
@@ -33,8 +34,8 @@ axios.get('api/polls')
 render(
   <Router history={browserHistory}> 
     <Route path="/" component={App}>
-      <IndexRoute component={PollInfo}></IndexRoute>
-      <Route path="asd" component={PollInfo}></Route>
+      <IndexRoute component={PollList}></IndexRoute>
+      <Route path="/:pollid" component={PollInfo}></Route>
     </Route>
   </Router>,
   document.getElementById('root')

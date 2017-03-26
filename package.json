@@ -1,11 +1,12 @@
 {
   "name": "voting-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "A website that lets you create polls and vote.",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "start-dev": "concurrently --kill-others \"webpack --watch\" \"babel src -d dist --ignore client/*.js --copy-files --watch\" \"nodemon dist/server.js --delay 2 --ignore src/\""
   },
   "author": "Hristijan Gjorgjievski",
   "license": "ISC",
@@ -18,9 +19,13 @@
     "react-dom": "^15.4.2"
   },
   "devDependencies": {
-    "babel-preset-es2015": "^6.18.0",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-nodemon": "^2.2.1"
+    "babel-cli": "^6.24.0",
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-react": "^6.23.0",
+    "concurrently": "^3.4.0",
+    "nodemon": "^1.11.0",
+    "webpack": "^2.3.2"
   }
 }

@@ -1,16 +1,19 @@
-let express = require('express');
 import bodyParser from 'body-parser';
+import path from 'path';
+let express = require('express');
 let app = express();
+
 
 // Connect to database
 import './api/models/db.js';
 
 let routesApi = require('./api/routes/index');
 
-app.set('view engine', 'pug')
-app.set('views', './dist/client');
+app.set('view engine', 'pug');
+app.set('views', __dirname + '/client');
+app.use('/static', express.static(path.join(__dirname, 'client', 'public')))
 
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.use('/api', routesApi);

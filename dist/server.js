@@ -24,6 +24,8 @@ app.set('view engine', 'pug');
 app.set('views', __dirname + '/client');
 app.use('/static', express.static(_path2.default.join(__dirname, 'client', 'public')));
 
+app.use('/static', express.static(_path2.default.join(__dirname, 'public')));
+
 app.use(_bodyParser2.default.json());
 app.use(_bodyParser2.default.urlencoded({ extended: true }));
 

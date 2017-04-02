@@ -1,13 +1,43 @@
 import React from 'react';
 import {render} from 'react-dom';
 
-class App extends React.Component {
-    render() {
-        return (<h1>Application componen</h1>);
-    }
+import { Router, Route, Link, browserHistory, IndexRoute} from 'react-router'
+import axios from 'axios';
+import {createStore} from 'redux';
+import App from './components/App';
+import PollInfo from './components/PollInfo';
+import PollList from './components/PollList';
+
+const initialState = {};
+
+function todos(state = [], action) {
+  switch (action.type) {
+    case 'ADD_TODO':
+      return state.concat([ action.text ])
+    default:
+      return state
+  }
 }
 
+const store = createStore(todos, {});
+store.subscribe(function(state){
+  console.log(state);
+});
+
+axios.get('api/polls')
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+
 render(
-    <App />,
-    document.getElementById('root')
+  <Router history={browserHistory}> 
+    <Route path="/" component={App}>
+      <IndexRoute component={PollList}></IndexRoute>
+      <Route path="/:pollid" component={PollInfo}></Route>
+    </Route>
+  </Router>,
+  document.getElementById('root')
 );

@@ -30,7 +30,7 @@ app.use(_bodyParser2.default.urlencoded({ extended: true }));
 
 app.use('/api', routesApi);
 
-app.get('/', function (req, res) {
+app.get('/*', function (req, res) {
     res.render("index");
 });
 

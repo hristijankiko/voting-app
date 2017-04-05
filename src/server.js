@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.use('/api', routesApi);
 
-app.get('/', function(req, res){
+app.get('/*', function(req, res){
     res.render("index");
 });
 

@@ -1,42 +1,40 @@
 import React from 'react';
 import {render} from 'react-dom';
-import { Router, Route, Link, browserHistory, IndexRoute} from 'react-router'
+import thunkMiddleware from 'redux-thunk';
+import {createLogger} from 'redux-logger';
+import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
 import axios from 'axios';
-import {createStore} from 'redux';
+import {Provider} from 'react-redux';
+import {createStore, applyMiddleware} from 'redux';
 import App from './components/App';
-import PollInfo from './components/PollInfo';
-import PollList from './components/PollList';
+import Navigation from './components/Navigation';
+import PollListContainer from './containers/PollListContainer';
+import PollInfoContainer from './containers/PollInfoContainer';
+import rootReducer from './reducers';
+import {fetchPolls} from './actions';
 
-const initialState = {};
+const loggerMiddleware = createLogger();
 
-function todos(state = [], action) {
-  switch (action.type) {
-    case 'ADD_TODO':
-      return state.concat([ action.text ])
-    default:
-      return state
-  }
-}
+const store = createStore(rootReducer, applyMiddleware(
+  thunkMiddleware,
+  loggerMiddleware
+));
 
-const store = createStore(todos, {});
-store.subscribe(function(state){
-  console.log(state);
+store.dispatch(fetchPolls("asd"));
+
+store.subscribe(function(){
+  console.log(store.getState());
 });
 
-axios.get('api/polls')
-  .then(function (response) {
-    console.log(response);
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-
 render(
-  <Router history={browserHistory}> 
-    <Route path="/" component={App}>
-      <IndexRoute component={PollList}></IndexRoute>
-      <Route path="/:pollid" component={PollInfo}></Route>
-    </Route>
-  </Router>,
+  <Provider store={store}>
+    <Router>
+      <div>
+        <Navigation />
+        <Route exact path="/" component={PollListContainer} />
+        <Route path="/:pollid" component={PollInfoContainer} />
+      </div>
+    </Router>
+  </Provider>,
   document.getElementById('root')
 );

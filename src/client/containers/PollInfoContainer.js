@@ -16,7 +16,7 @@ const mapStateToProps = (state, ownProps) => {
         return {};
     }
     return {
-        id: poll._id,
+        _id: poll._id,
         name: poll.name,
         choices: poll.choices,
     }

@@ -8,6 +8,7 @@ import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import App from './components/App';
 import Navigation from './components/Navigation';
+import RegisterForm from './components/RegisterForm';
 import PollListContainer from './containers/PollListContainer';
 import PollInfoContainer from './containers/PollInfoContainer';
 import rootReducer from './reducers';
@@ -32,7 +33,8 @@ render(
       <div>
         <Navigation />
         <Route exact path="/" component={PollListContainer} />
-        <Route path="/:pollid" component={PollInfoContainer} />
+        <Route exact path="/register" component={RegisterForm} />
+        <Route exact path="/:pollid" component={PollInfoContainer} />
       </div>
     </Router>
   </Provider>,

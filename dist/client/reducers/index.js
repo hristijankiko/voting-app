@@ -6,9 +6,10 @@ Object.defineProperty(exports, "__esModule", {
 
 var _redux = require('redux');
 
+var _reduxForm = require('redux-form');
+
 var _actions = require('../actions');
 
-//Reducers
 function polls() {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
         isFetching: false,
@@ -39,7 +40,8 @@ function polls() {
 }
 
 var rootReducer = (0, _redux.combineReducers)({
-    polls: polls
+    polls: polls,
+    form: _reduxForm.reducer
 });
 
 exports.default = rootReducer;

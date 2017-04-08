@@ -1,5 +1,5 @@
-//Reducers
 import {combineReducers} from 'redux';
+import {reducer as formReducer} from 'redux-form';
 import {
     FETCH_POLLS,
     INVALIDATE_POLLS,
@@ -34,7 +34,8 @@ function polls(state = {
 }
 
 const rootReducer = combineReducers({
-    polls
+    polls,
+    form: formReducer
 });
 
 export default rootReducer;

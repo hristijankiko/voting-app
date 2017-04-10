@@ -6,9 +6,9 @@ Object.defineProperty(exports, "__esModule", {
 
 var _reactRedux = require('react-redux');
 
-var _RegisterForm = require('../components/RegisterForm');
+var _LoginForm = require('../components/LoginForm');
 
-var _RegisterForm2 = _interopRequireDefault(_RegisterForm);
+var _LoginForm2 = _interopRequireDefault(_LoginForm);
 
 var _actions = require('../actions');
 
@@ -24,11 +24,11 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
             var username = _ref.username,
                 password = _ref.password;
 
-            dispatch((0, _actions.attemptRegister)(username, password));
+            dispatch((0, _actions.attemptLogin)(username, password));
         }
     };
 };
 
-var RegisterFormContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_RegisterForm2.default);
+var LoginFormContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_LoginForm2.default);
 
-exports.default = RegisterFormContainer;
+exports.default = LoginFormContainer;

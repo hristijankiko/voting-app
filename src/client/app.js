@@ -8,7 +8,8 @@ import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import App from './components/App';
 import Navigation from './components/Navigation';
-import RegisterForm from './components/RegisterForm';
+import LoginFormContainer from './containers/LoginFormContainer';
+import RegisterFormContainer from './containers/RegisterFormContainer';
 import PollListContainer from './containers/PollListContainer';
 import PollInfoContainer from './containers/PollInfoContainer';
 import rootReducer from './reducers';
@@ -23,17 +24,14 @@ const store = createStore(rootReducer, applyMiddleware(
 
 store.dispatch(fetchPolls("asd"));
 
-store.subscribe(function(){
-  console.log(store.getState());
-});
-
 render(
   <Provider store={store}>
     <Router>
       <div>
         <Navigation />
         <Route exact path="/" component={PollListContainer} />
-        <Route exact path="/register" component={RegisterForm} />
+        <Route exact path="/login" component={LoginFormContainer} />
+        <Route exact path="/register" component={RegisterFormContainer} />
         <Route exact path="/:pollid" component={PollInfoContainer} />
       </div>
     </Router>

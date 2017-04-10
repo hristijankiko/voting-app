@@ -10,10 +10,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reduxForm = require('redux-form');
 
-var _TextField = require('./TextField');
-
-var _TextField2 = _interopRequireDefault(_TextField);
-
 var _Button = require('./Button');
 
 var _Button2 = _interopRequireDefault(_Button);
@@ -22,11 +18,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var RegisterForm = function RegisterForm(_ref) {
     var handleSubmit = _ref.handleSubmit,
+        onSubmit = _ref.onSubmit,
         _ref$errors = _ref.errors,
         errors = _ref$errors === undefined ? {} : _ref$errors;
     return _react2.default.createElement(
         'form',
-        { action: '/', onSubmit: handleSubmit },
+        { onSubmit: handleSubmit(onSubmit) },
         _react2.default.createElement(
             'h2',
             null,

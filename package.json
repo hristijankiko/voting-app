@@ -15,6 +15,7 @@
     "body-parser": "^1.15.2",
     "chart.js": "^2.5.0",
     "express": "^4.14.0",
+    "form-data": "^2.1.4",
     "mongoose": "^4.7.5",
     "pug": "^2.0.0-beta6",
     "react": "^15.4.2",
@@ -23,7 +24,8 @@
     "redux": "^3.6.0",
     "redux-form": "^6.6.2",
     "redux-logger": "^3.0.1",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "validator": "^7.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.24.0",

@@ -10448,11 +10448,28 @@ function fetchPolls() {
     };
 }
 
-function attemptLogin(username, password) {
-    console.log("Username: " + username + " Password: " + password);
+function attemptLogin(data) {
+    console.log("Username: " + data.username + " Password: " + data.password);
+
+    var formBody = [];
+
+    for (var property in data) {
+        var encodedKey = encodeURIComponent(property);
+        var encodedValue = encodeURIComponent(data[property]);
+        formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+
     return function (dispatch) {
         dispatch(requestLogin());
-        return (0, _isomorphicFetch2.default)('http://localhost:3000/', { method: 'POST' }).then(function (response) {
+        return (0, _isomorphicFetch2.default)('http://localhost:3000/', {
+            method: 'POST',
+            body: formBody,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(function (response) {
             return response.json;
         }).then(function (json) {
             return dispatch(recieveLogin(json));
@@ -10460,11 +10477,26 @@ function attemptLogin(username, password) {
     };
 }
 
-function attemptRegister(username, password) {
-    console.log("Username: " + username + " Password: " + password);
+function attemptRegister(data) {
+    var formBody = [];
+
+    for (var property in data) {
+        var encodedKey = encodeURIComponent(property);
+        var encodedValue = encodeURIComponent(data[property]);
+        formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+
     return function (dispatch) {
         dispatch(requestRegister());
-        return (0, _isomorphicFetch2.default)('http://localhost:3000/register', { method: 'POST' }).then(function (response) {
+        return (0, _isomorphicFetch2.default)('http://localhost:3000/register', {
+            method: 'POST',
+            body: formBody,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(function (response) {
             return response.json;
         }).then(function (json) {
             return dispatch(recieveRegister(json));
@@ -30621,17 +30653,50 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reduxForm = __webpack_require__(105);
 
+var _isEmail = __webpack_require__(672);
+
+var _isEmail2 = _interopRequireDefault(_isEmail);
+
+var _RenderField = __webpack_require__(674);
+
+var _RenderField2 = _interopRequireDefault(_RenderField);
+
 var _Button = __webpack_require__(116);
 
 var _Button2 = _interopRequireDefault(_Button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var validate = function validate(values) {
+    var errors = {};
+
+    if (!values.email) {
+        errors.email = "Email is required";
+    } else if (!(0, _isEmail2.default)(values.email)) {
+        errors.email = "Invalid email";
+    }
+
+    if (!values.username) {
+        errors.username = "Username is required";
+    } else if (values.username.length < 6) {
+        errors.username = "Username must be at least 5 characters";
+    }
+
+    if (!values.password) {
+        errors.password = "Password is required";
+    } else if (values.password.length < 6) {
+        errors.password = "Password must be at least 6 characters";
+    }
+
+    return errors;
+};
+
 var RegisterForm = function RegisterForm(_ref) {
     var handleSubmit = _ref.handleSubmit,
         onSubmit = _ref.onSubmit,
         _ref$errors = _ref.errors,
-        errors = _ref$errors === undefined ? {} : _ref$errors;
+        errors = _ref$errors === undefined ? {} : _ref$errors,
+        submitting = _ref.submitting;
     return _react2.default.createElement(
         'form',
         { onSubmit: handleSubmit(onSubmit) },
@@ -30640,29 +30705,16 @@ var RegisterForm = function RegisterForm(_ref) {
             null,
             'Register'
         ),
-        errors.summary && _react2.default.createElement(
-            'p',
-            { className: 'error-message' },
-            errors.summary
-        ),
-        _react2.default.createElement(
-            'label',
-            { htmlFor: 'username' },
-            'Username:'
-        ),
-        _react2.default.createElement(_reduxForm.Field, { name: 'username', component: 'input', type: 'text' }),
-        _react2.default.createElement(
-            'label',
-            { htmlFor: 'password' },
-            'Password:'
-        ),
-        _react2.default.createElement(_reduxForm.Field, { name: 'password', component: 'input', type: 'password' }),
-        _react2.default.createElement(_Button2.default, { type: 'Submit', text: 'Register' })
+        _react2.default.createElement(_reduxForm.Field, { name: 'username', component: _RenderField2.default, type: 'text', label: 'Username' }),
+        _react2.default.createElement(_reduxForm.Field, { name: 'email', component: _RenderField2.default, type: 'email', label: 'Email' }),
+        _react2.default.createElement(_reduxForm.Field, { name: 'password', component: _RenderField2.default, type: 'password', label: 'Password' }),
+        _react2.default.createElement(_Button2.default, { type: 'Submit', text: 'Register', disabled: submitting })
     );
 };
 
 RegisterForm = (0, _reduxForm.reduxForm)({
-    form: 'register'
+    form: 'register',
+    validate: validate
 })(RegisterForm);
 
 exports.default = RegisterForm;
@@ -30694,11 +30746,8 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     return {
-        onSubmit: function onSubmit(_ref) {
-            var username = _ref.username,
-                password = _ref.password;
-
-            dispatch((0, _actions.attemptLogin)(username, password));
+        onSubmit: function onSubmit(data) {
+            dispatch((0, _actions.attemptLogin)(data));
         }
     };
 };
@@ -31960,10 +32009,14 @@ store.dispatch((0, _actions.fetchPolls)("asd"));
       'div',
       null,
       _react2.default.createElement(_Navigation2.default, null),
-      _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _PollListContainer2.default }),
-      _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/login', component: _LoginFormContainer2.default }),
-      _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/register', component: _RegisterFormContainer2.default }),
-      _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/:pollid', component: _PollInfoContainer2.default })
+      _react2.default.createElement(
+        _reactRouterDom.Switch,
+        null,
+        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _PollListContainer2.default }),
+        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/login', component: _LoginFormContainer2.default }),
+        _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/register', component: _RegisterFormContainer2.default }),
+        _react2.default.createElement(_reactRouterDom.Route, { path: '/:pollid', component: _PollInfoContainer2.default })
+      )
     )
   )
 ), document.getElementById('root'));
@@ -32072,7 +32125,7 @@ exports.default = DoughnutChart;
 
 
 Object.defineProperty(exports, "__esModule", {
-        value: true
+    value: true
 });
 
 var _react = __webpack_require__(4);
@@ -32081,48 +32134,61 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reduxForm = __webpack_require__(105);
 
+var _isEmail = __webpack_require__(672);
+
+var _isEmail2 = _interopRequireDefault(_isEmail);
+
 var _Button = __webpack_require__(116);
 
 var _Button2 = _interopRequireDefault(_Button);
 
+var _RenderField = __webpack_require__(674);
+
+var _RenderField2 = _interopRequireDefault(_RenderField);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var validate = function validate(values) {
+    var errors = {};
+
+    if (!values.email) {
+        errors.email = "Email is required";
+    } else if (!(0, _isEmail2.default)(values.email)) {
+        errors.email = "Invalid email";
+    }
+
+    if (!values.password) {
+        errors.password = "Password is required";
+    } else if (values.password.length < 6) {
+        errors.password = "Password must be at least 6 characters";
+    }
+
+    return errors;
+};
+
 var LoginForm = function LoginForm(_ref) {
-        var handleSubmit = _ref.handleSubmit,
-            onSubmit = _ref.onSubmit,
-            _ref$errors = _ref.errors,
-            errors = _ref$errors === undefined ? {} : _ref$errors;
-        return _react2.default.createElement(
-                'form',
-                { onSubmit: handleSubmit(onSubmit) },
-                _react2.default.createElement(
-                        'h2',
-                        null,
-                        'Login'
-                ),
-                errors.summary && _react2.default.createElement(
-                        'p',
-                        { className: 'error-message' },
-                        errors.summary
-                ),
-                _react2.default.createElement(
-                        'label',
-                        { htmlFor: 'username' },
-                        'Username:'
-                ),
-                _react2.default.createElement(_reduxForm.Field, { name: 'username', component: 'input', type: 'text' }),
-                _react2.default.createElement(
-                        'label',
-                        { htmlFor: 'password' },
-                        'Password:'
-                ),
-                _react2.default.createElement(_reduxForm.Field, { name: 'password', component: 'input', type: 'password' }),
-                _react2.default.createElement(_Button2.default, { type: 'submit', text: 'Login' })
-        );
+    var handleSubmit = _ref.handleSubmit,
+        onSubmit = _ref.onSubmit,
+        _ref$errors = _ref.errors,
+        errors = _ref$errors === undefined ? {} : _ref$errors,
+        submitting = _ref.submitting;
+    return _react2.default.createElement(
+        'form',
+        { onSubmit: handleSubmit(onSubmit) },
+        _react2.default.createElement(
+            'h2',
+            null,
+            'Login'
+        ),
+        _react2.default.createElement(_reduxForm.Field, { name: 'email', component: _RenderField2.default, type: 'email', label: 'Email' }),
+        _react2.default.createElement(_reduxForm.Field, { name: 'password', component: _RenderField2.default, type: 'password', label: 'Password' }),
+        _react2.default.createElement(_Button2.default, { type: 'Submit', text: 'Register', disabled: submitting })
+    );
 };
 
 LoginForm = (0, _reduxForm.reduxForm)({
-        form: 'login'
+    form: 'login',
+    validate: validate
 })(LoginForm);
 
 exports.default = LoginForm;
@@ -69142,11 +69208,8 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     return {
-        onSubmit: function onSubmit(_ref) {
-            var username = _ref.username,
-                password = _ref.password;
-
-            dispatch((0, _actions.attemptRegister)(username, password));
+        onSubmit: function onSubmit(data) {
+            dispatch((0, _actions.attemptRegister)(data));
         }
     };
 };
@@ -69154,6 +69217,295 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 var RegisterFormContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_RegisterForm2.default);
 
 exports.default = RegisterFormContainer;
+
+/***/ }),
+/* 668 */,
+/* 669 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = assertString;
+function assertString(input) {
+  if (typeof input !== 'string') {
+    throw new TypeError('This library (validator.js) validates strings only');
+  }
+}
+module.exports = exports['default'];
+
+/***/ }),
+/* 670 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = merge;
+function merge() {
+  var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var defaults = arguments[1];
+
+  for (var key in defaults) {
+    if (typeof obj[key] === 'undefined') {
+      obj[key] = defaults[key];
+    }
+  }
+  return obj;
+}
+module.exports = exports['default'];
+
+/***/ }),
+/* 671 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+exports.default = isByteLength;
+
+var _assertString = __webpack_require__(669);
+
+var _assertString2 = _interopRequireDefault(_assertString);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+/* eslint-disable prefer-rest-params */
+function isByteLength(str, options) {
+  (0, _assertString2.default)(str);
+  var min = void 0;
+  var max = void 0;
+  if ((typeof options === 'undefined' ? 'undefined' : _typeof(options)) === 'object') {
+    min = options.min || 0;
+    max = options.max;
+  } else {
+    // backwards compatibility: isByteLength(str, min [, max])
+    min = arguments[1];
+    max = arguments[2];
+  }
+  var len = encodeURI(str).split(/%..|./).length - 1;
+  return len >= min && (typeof max === 'undefined' || len <= max);
+}
+module.exports = exports['default'];
+
+/***/ }),
+/* 672 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = isEmail;
+
+var _assertString = __webpack_require__(669);
+
+var _assertString2 = _interopRequireDefault(_assertString);
+
+var _merge = __webpack_require__(670);
+
+var _merge2 = _interopRequireDefault(_merge);
+
+var _isByteLength = __webpack_require__(671);
+
+var _isByteLength2 = _interopRequireDefault(_isByteLength);
+
+var _isFQDN = __webpack_require__(673);
+
+var _isFQDN2 = _interopRequireDefault(_isFQDN);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var default_email_options = {
+  allow_display_name: false,
+  require_display_name: false,
+  allow_utf8_local_part: true,
+  require_tld: true
+};
+
+/* eslint-disable max-len */
+/* eslint-disable no-control-regex */
+var displayName = /^[a-z\d!#\$%&'\*\+\-\/=\?\^_`{\|}~\.\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+[a-z\d!#\$%&'\*\+\-\/=\?\^_`{\|}~\.\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF\s]*<(.+)>$/i;
+var emailUserPart = /^[a-z\d!#\$%&'\*\+\-\/=\?\^_`{\|}~]+$/i;
+var quotedEmailUser = /^([\s\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e]|(\\[\x01-\x09\x0b\x0c\x0d-\x7f]))*$/i;
+var emailUserUtf8Part = /^[a-z\d!#\$%&'\*\+\-\/=\?\^_`{\|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+$/i;
+var quotedEmailUserUtf8 = /^([\s\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|(\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*$/i;
+/* eslint-enable max-len */
+/* eslint-enable no-control-regex */
+
+function isEmail(str, options) {
+  (0, _assertString2.default)(str);
+  options = (0, _merge2.default)(options, default_email_options);
+
+  if (options.require_display_name || options.allow_display_name) {
+    var display_email = str.match(displayName);
+    if (display_email) {
+      str = display_email[1];
+    } else if (options.require_display_name) {
+      return false;
+    }
+  }
+
+  var parts = str.split('@');
+  var domain = parts.pop();
+  var user = parts.join('@');
+
+  var lower_domain = domain.toLowerCase();
+  if (lower_domain === 'gmail.com' || lower_domain === 'googlemail.com') {
+    user = user.replace(/\./g, '').toLowerCase();
+  }
+
+  if (!(0, _isByteLength2.default)(user, { max: 64 }) || !(0, _isByteLength2.default)(domain, { max: 256 })) {
+    return false;
+  }
+
+  if (!(0, _isFQDN2.default)(domain, { require_tld: options.require_tld })) {
+    return false;
+  }
+
+  if (user[0] === '"') {
+    user = user.slice(1, user.length - 1);
+    return options.allow_utf8_local_part ? quotedEmailUserUtf8.test(user) : quotedEmailUser.test(user);
+  }
+
+  var pattern = options.allow_utf8_local_part ? emailUserUtf8Part : emailUserPart;
+
+  var user_parts = user.split('.');
+  for (var i = 0; i < user_parts.length; i++) {
+    if (!pattern.test(user_parts[i])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+module.exports = exports['default'];
+
+/***/ }),
+/* 673 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = isFDQN;
+
+var _assertString = __webpack_require__(669);
+
+var _assertString2 = _interopRequireDefault(_assertString);
+
+var _merge = __webpack_require__(670);
+
+var _merge2 = _interopRequireDefault(_merge);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var default_fqdn_options = {
+  require_tld: true,
+  allow_underscores: false,
+  allow_trailing_dot: false
+};
+
+function isFDQN(str, options) {
+  (0, _assertString2.default)(str);
+  options = (0, _merge2.default)(options, default_fqdn_options);
+
+  /* Remove the optional trailing dot before checking validity */
+  if (options.allow_trailing_dot && str[str.length - 1] === '.') {
+    str = str.substring(0, str.length - 1);
+  }
+  var parts = str.split('.');
+  if (options.require_tld) {
+    var tld = parts.pop();
+    if (!parts.length || !/^([a-z\u00a1-\uffff]{2,}|xn[a-z0-9-]{2,})$/i.test(tld)) {
+      return false;
+    }
+  }
+  for (var part, i = 0; i < parts.length; i++) {
+    part = parts[i];
+    if (options.allow_underscores) {
+      part = part.replace(/_/g, '');
+    }
+    if (!/^[a-z\u00a1-\uffff0-9-]+$/i.test(part)) {
+      return false;
+    }
+    if (/[\uff01-\uff5e]/.test(part)) {
+      // disallow full-width chars
+      return false;
+    }
+    if (part[0] === '-' || part[part.length - 1] === '-') {
+      return false;
+    }
+  }
+  return true;
+}
+module.exports = exports['default'];
+
+/***/ }),
+/* 674 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _react = __webpack_require__(4);
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var RenderField = function RenderField(_ref) {
+  var input = _ref.input,
+      label = _ref.label,
+      type = _ref.type,
+      _ref$meta = _ref.meta,
+      touched = _ref$meta.touched,
+      error = _ref$meta.error;
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'label',
+      null,
+      label
+    ),
+    _react2.default.createElement(
+      'div',
+      null,
+      _react2.default.createElement('input', _extends({}, input, { type: type })),
+      touched && error && _react2.default.createElement(
+        'span',
+        null,
+        error
+      )
+    )
+  );
+};
+
+exports.default = RenderField;
 
 /***/ })
 /******/ ]);

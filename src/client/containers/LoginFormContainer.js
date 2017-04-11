@@ -10,8 +10,8 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onSubmit: ({username, password}) => {
-            dispatch(attemptLogin(username, password))
+        onSubmit: (data) => {
+            dispatch(attemptLogin(data))
         }
     }
 }

@@ -21,11 +21,28 @@ export function fetchPolls() {
     }
 }
 
-export function attemptLogin(username, password) {
-    console.log("Username: " + username + " Password: " + password);
+export function attemptLogin(data) {
+    console.log("Username: " + data.username + " Password: " + data.password);
+    
+    let formBody = [];
+
+    for (let property in data) {
+    let encodedKey = encodeURIComponent(property);
+    let encodedValue = encodeURIComponent(data[property]);
+    formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+
     return function(dispatch) {
         dispatch(requestLogin());
-        return fetch('http://localhost:3000/', {method: 'POST'})
+        return fetch('http://localhost:3000/', {
+            method: 'POST',
+            body: formBody,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
         .then(response => response.json)
         .then(json => 
             dispatch(recieveLogin(json))
@@ -33,11 +50,26 @@ export function attemptLogin(username, password) {
     }
 }
 
-export function attemptRegister(username, password) {
-    console.log("Username: " + username + " Password: " + password);
+export function attemptRegister(data) {
+    var formBody = [];
+
+    for (var property in data) {
+    var encodedKey = encodeURIComponent(property);
+    var encodedValue = encodeURIComponent(data[property]);
+    formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+
     return function(dispatch) {
         dispatch(requestRegister());
-        return fetch('http://localhost:3000/register', {method: 'POST'})
+        return fetch('http://localhost:3000/register', {
+            method: 'POST',
+            body: formBody,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+         })
         .then(response => response.json)
         .then(json =>
             dispatch(recieveRegister(json))

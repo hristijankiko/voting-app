@@ -2,7 +2,7 @@ import React from 'react';
 import {render} from 'react-dom';
 import thunkMiddleware from 'redux-thunk';
 import {createLogger} from 'redux-logger';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
 import axios from 'axios';
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
@@ -29,10 +29,12 @@ render(
     <Router>
       <div>
         <Navigation />
-        <Route exact path="/" component={PollListContainer} />
-        <Route exact path="/login" component={LoginFormContainer} />
-        <Route exact path="/register" component={RegisterFormContainer} />
-        <Route exact path="/:pollid" component={PollInfoContainer} />
+        <Switch>
+          <Route exact path="/" component={PollListContainer} />
+          <Route exact path="/login" component={LoginFormContainer} />
+          <Route exact path="/register" component={RegisterFormContainer} />
+          <Route path="/:pollid" component={PollInfoContainer} />
+        </Switch>
       </div>
     </Router>
   </Provider>,

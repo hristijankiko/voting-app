@@ -31,10 +31,13 @@ app.use(_bodyParser2.default.urlencoded({ extended: true }));
 app.use('/api', routesApi);
 
 app.post('/', function (req, res) {
-    console.log("POSTED FORM POSTED FORM POSTED FORM");
+    console.log(req.body);
+    console.log("LOGGING IN LOGGING IN LOGGING IN");
 });
 
 app.post('/register', function (req, res) {
+    console.log(req.body);
+
     console.log("REGISTERING REGISTERING REGISTERING");
 });
 

@@ -41,11 +41,28 @@ function fetchPolls() {
     };
 }
 
-function attemptLogin(username, password) {
-    console.log("Username: " + username + " Password: " + password);
+function attemptLogin(data) {
+    console.log("Username: " + data.username + " Password: " + data.password);
+
+    var formBody = [];
+
+    for (var property in data) {
+        var encodedKey = encodeURIComponent(property);
+        var encodedValue = encodeURIComponent(data[property]);
+        formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+
     return function (dispatch) {
         dispatch(requestLogin());
-        return (0, _isomorphicFetch2.default)('http://localhost:3000/', { method: 'POST' }).then(function (response) {
+        return (0, _isomorphicFetch2.default)('http://localhost:3000/', {
+            method: 'POST',
+            body: formBody,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(function (response) {
             return response.json;
         }).then(function (json) {
             return dispatch(recieveLogin(json));
@@ -53,11 +70,26 @@ function attemptLogin(username, password) {
     };
 }
 
-function attemptRegister(username, password) {
-    console.log("Username: " + username + " Password: " + password);
+function attemptRegister(data) {
+    var formBody = [];
+
+    for (var property in data) {
+        var encodedKey = encodeURIComponent(property);
+        var encodedValue = encodeURIComponent(data[property]);
+        formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+
     return function (dispatch) {
         dispatch(requestRegister());
-        return (0, _isomorphicFetch2.default)('http://localhost:3000/register', { method: 'POST' }).then(function (response) {
+        return (0, _isomorphicFetch2.default)('http://localhost:3000/register', {
+            method: 'POST',
+            body: formBody,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(function (response) {
             return response.json;
         }).then(function (json) {
             return dispatch(recieveRegister(json));

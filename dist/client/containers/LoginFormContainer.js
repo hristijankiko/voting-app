@@ -20,11 +20,8 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {
     return {
-        onSubmit: function onSubmit(_ref) {
-            var username = _ref.username,
-                password = _ref.password;
-
-            dispatch((0, _actions.attemptLogin)(username, password));
+        onSubmit: function onSubmit(data) {
+            dispatch((0, _actions.attemptLogin)(data));
         }
     };
 };

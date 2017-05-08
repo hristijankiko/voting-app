@@ -76,7 +76,7 @@ export function attemptLogin(data) {
 
     return function(dispatch) {
         dispatch(requestLogin());
-        return fetch('http://localhost:3000/api/auth/login', {
+        return fetch(host + '/api/auth/login', {
             method: 'POST',
             credentials: 'include',
             body: formBody,
@@ -104,7 +104,7 @@ export function attemptRegister(data) {
 
     return function(dispatch) {
         dispatch(requestRegister());
-        return fetch('http://localhost:3000/api/auth/register', {
+        return fetch(host + '/api/auth/register', {
             method: 'POST',
             credentials: 'include',
             body: formBody,
@@ -132,7 +132,7 @@ export function attemptRegister(data) {
 export function attemptLogout() {
     return function(dispatch) {
         dispatch(requestLogout());
-        fetch("http://localhost:3000/api/auth/logout", {
+        fetch(host + "/api/auth/logout", {
             method: 'GET',
             credentials: 'include'
         }).then(response => {
@@ -160,7 +160,7 @@ export function attemptPollCreate(data, username) {
 
     return function(dispatch) {
         dispatch(requestPollCreate());
-        return fetch('http://localhost:3000/api/polls', {
+        return fetch(host + '/api/polls', {
             credentials: 'same-origin',
             method: 'POST',
             body: formBody,

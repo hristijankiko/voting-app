@@ -45,13 +45,11 @@ var RECIEVE_VOTE = exports.RECIEVE_VOTE = 'RECIEVE_VOTE';
 var REQUEST_LOGOUT = exports.REQUEST_LOGOUT = 'REQUEST_LOGOUT';
 var RECIEVE_LOGOUT = exports.RECIEVE_LOGOUT = 'RECIEVE_LOGOUT';
 
-host = "http://localhost:3000";
+// var protocol = location.protocol;
+// var slashes = protocol.concat("//");
+// var host = slashes.concat(window.location.hostname);
 
-if (process.env.NODE_ENV === 'production') {
-    var protocol = location.protocol;
-    var slashes = protocol.concat("//");
-    var host = slashes.concat(window.location.hostname);
-}
+var host = "http://localhost:3000";
 
 function attemptVote(selectedPoll, selectedChoice, username) {
     var formBody = "votedChoice=" + selectedChoice;
@@ -82,6 +80,7 @@ function attemptVote(selectedPoll, selectedChoice, username) {
 
 function fetchPolls() {
     return function (dispatch) {
+        console.log(host + "/api/polls");
         dispatch(requestPolls());
         return (0, _isomorphicFetch2.default)(host + '/api/polls', {
             method: 'GET',
@@ -106,7 +105,7 @@ function attemptLogin(data) {
 
     return function (dispatch) {
         dispatch(requestLogin());
-        return (0, _isomorphicFetch2.default)('http://localhost:3000/api/auth/login', {
+        return (0, _isomorphicFetch2.default)(host + '/api/auth/login', {
             method: 'POST',
             credentials: 'include',
             body: formBody,
@@ -134,7 +133,7 @@ function attemptRegister(data) {
 
     return function (dispatch) {
         dispatch(requestRegister());
-        return (0, _isomorphicFetch2.default)('http://localhost:3000/api/auth/register', {
+        return (0, _isomorphicFetch2.default)(host + '/api/auth/register', {
             method: 'POST',
             credentials: 'include',
             body: formBody,
@@ -159,7 +158,7 @@ function attemptRegister(data) {
 function attemptLogout() {
     return function (dispatch) {
         dispatch(requestLogout());
-        (0, _isomorphicFetch2.default)("http://localhost:3000/api/auth/logout", {
+        (0, _isomorphicFetch2.default)(host + "/api/auth/logout", {
             method: 'GET',
             credentials: 'include'
         }).then(function (response) {
@@ -186,7 +185,7 @@ function attemptPollCreate(data, username) {
 
     return function (dispatch) {
         dispatch(requestPollCreate());
-        return (0, _isomorphicFetch2.default)('http://localhost:3000/api/polls', {
+        return (0, _isomorphicFetch2.default)(host + '/api/polls', {
             credentials: 'same-origin',
             method: 'POST',
             body: formBody,

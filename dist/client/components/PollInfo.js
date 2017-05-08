@@ -18,6 +18,10 @@ var _VoteFormContainer = require('../containers/VoteFormContainer');
 
 var _VoteFormContainer2 = _interopRequireDefault(_VoteFormContainer);
 
+var _ChoiceList = require('./ChoiceList');
+
+var _ChoiceList2 = _interopRequireDefault(_ChoiceList);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -40,7 +44,7 @@ var PollInfo = function PollInfo(_ref) {
         _react2.default.createElement(
             'div',
             { className: 'pollInfoContent' },
-            _react2.default.createElement(_VoteFormContainer2.default, _defineProperty({ choices: choices, authUser: authUser, pollId: _id }, 'authUser', authUser)),
+            authUser ? _react2.default.createElement(_VoteFormContainer2.default, _defineProperty({ choices: choices, authUser: authUser, pollId: _id }, 'authUser', authUser)) : _react2.default.createElement(_ChoiceList2.default, { choices: choices }),
             _react2.default.createElement(_DoughnutChart2.default, { _id: _id, choices: choices, width: '300', height: '300' })
         )
     );

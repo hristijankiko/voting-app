@@ -3,6 +3,7 @@ import path from 'path';
 import passport from 'passport';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
+let RedisStore = require('connect-redis')(session);
 let express = require('express');
 let app = express();
 
@@ -17,13 +18,12 @@ app.use((req, res, next) => {
     next();
 })
 
-let routesApi = require('./api/routes/index');
-
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(session({ 
-    secret: 'keyboard cat', 
+    secret: 'keyboard cat',
+    store: new RedisStore(), 
     resave: false, 
     maxAge : (4 * 60 * 60 * 1000),
     saveUninitialized: true,
@@ -34,6 +34,8 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+let routesApi = require('./api/routes/index');
 
 app.set('view engine', 'pug');
 app.set('views', __dirname + '/client');

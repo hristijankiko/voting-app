@@ -51,6 +51,7 @@ export function attemptVote(selectedPoll, selectedChoice, username) {
 
 export function fetchPolls() {
     return function (dispatch) {
+        console.log(host + "/api/polls");
         dispatch(requestPolls());
         return fetch(host + '/api/polls', {
             method: 'GET',

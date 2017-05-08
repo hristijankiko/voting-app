@@ -21,7 +21,12 @@ let pollSchema = new mongoose.Schema({
     choices: {
         type: [choiceSchema],
         required: true
-    }
+    },
+    createdBy: {
+        type: String,
+        required: true
+    },
+    usersVoted: []
 });
 
 mongoose.model('Poll', pollSchema);

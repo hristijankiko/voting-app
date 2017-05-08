@@ -15,7 +15,9 @@ var _actions = require('../actions');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
-    return {};
+    return {
+        isAuthenticated: state.auth.isAuthenticated
+    };
 };
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch) {

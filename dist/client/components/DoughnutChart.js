@@ -80,7 +80,7 @@ var DoughnutChart = function (_React$Component) {
     }, {
         key: 'render',
         value: function render() {
-            return _react2.default.createElement('canvas', { id: this.props._id, width: this.props.width, height: this.props.height });
+            return _react2.default.createElement('canvas', { className: 'doughnutChart', id: this.props._id, width: this.props.width, height: this.props.height });
         }
     }]);
 

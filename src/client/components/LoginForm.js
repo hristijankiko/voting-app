@@ -1,4 +1,5 @@
 import React from 'react';
+import {Redirect} from 'react-router';
 import {Field, reduxForm} from 'redux-form';
 import isEmail from 'validator/lib/isEmail';
 import Button from './Button';
@@ -22,15 +23,15 @@ const validate = values => {
     return errors;
 }
 
-let LoginForm = ({handleSubmit, onSubmit, errors = {}, submitting}) => (
-    
+let LoginForm = ({handleSubmit, onSubmit, errors = {}, submitting, isAuthenticated}) => (
     <form onSubmit={handleSubmit(onSubmit)}>
+        {isAuthenticated && <Redirect to="/" />}
         <h2>Login</h2>
 
         <Field name="email" component={RenderField} type="email" label="Email"/>
         <Field name="password" component={RenderField} type="password" label="Password"/>
 
-        <Button type="Submit" text="Register" disabled={submitting} />
+        <Button type="Submit" text="Login" disabled={submitting} />
     </form>
 );
 

@@ -30,10 +30,11 @@ export function createPoll(req, res){
     formChoices.forEach(function(choice){
         choices.push({name: choice, votes: 0});
     });
-
+    console.log(req.body);
     Poll.create({
         name: req.body.name,
-        choices: choices 
+        choices: choices,
+        createdBy: req.user.username
     }, function(err, poll){
         if(err){
             res.send(err);
@@ -68,22 +69,57 @@ export function getSpecificPoll(req, res){
     }
     Poll.findById(req.params.pollid, function(err, poll){
         sendJsonResponse(res, 200, poll);
+        return;
     });
 }
 
 export function castVote(req, res){
+    console.log("Recieved")
     if(!req.body){
         sendJsonResponse(res, 400, {error: 'Voted choice missing.'});
         return;
     }
+    if(!req.user) {
+        sendJsonResponse(res, 401, {error: "Not logged in"});
+    }
+
     Poll.findById(req.params.pollid, function(err, poll){
+        if(err) {
+            sendJsonResponse(res, 400, err);
+            return;
+        } 
+        if (!poll) {
+            sendJsonResponse(res, 404, {error: "Poll not found"});
+            return;
+        }
+
+        for(let i = 0; i < poll.usersVoted.length; i++) {
+            if(req.user.username == poll.usersVoted[i]) {
+                sendJsonResponse(res, 400, {error: "Already voted"});
+                return;
+            }
+        }
+
         let pollChoices = poll.choices;
+        let found = false;
         for(let i = 0, l = pollChoices.length; i < l; i++) {
             if(pollChoices[i].name === req.body.votedChoice) {
                 pollChoices[i].votes++;
+                found = true;
                 break;
             }
         }
+
+        console.log(pollChoices);
+        console.log(found);
+
+        poll.usersVoted.push(req.user.username);
+
+        if(!found) {
+            sendJsonResponse(res, 404, {error: "Choice not found"});
+            return;
+        }
+
         poll.save(function(err, poll){
             if(err){
                 sendJsonResponse(res, 400, err);

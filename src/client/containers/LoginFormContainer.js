@@ -4,7 +4,7 @@ import {attemptLogin} from '../actions';
 
 const mapStateToProps = (state, ownProps) => {
     return {
-
+        isAuthenticated: state.auth.isAuthenticated
     }
 }
 

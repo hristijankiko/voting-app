@@ -1,4 +1,5 @@
 import React from 'react';
+import {Redirect} from 'react-router';
 import {Field, reduxForm} from 'redux-form'
 import isEmail from 'validator/lib/isEmail';
 import RenderField from './RenderField';
@@ -28,8 +29,9 @@ const validate = values => {
     return errors;
 }
 
-let RegisterForm = ({handleSubmit, onSubmit, errors = {}, submitting }) => (
+let RegisterForm = ({handleSubmit, onSubmit, errors = {}, submitting, isAuthenticated }) => (
     <form onSubmit={handleSubmit(onSubmit)}>
+        {isAuthenticated && <Redirect to="/" />}
         <h2>Register</h2>
                 
         <Field name="username" component={RenderField} type="text" label="Username" />

@@ -27,7 +27,12 @@ var pollSchema = new _mongoose2.default.Schema({
     choices: {
         type: [choiceSchema],
         required: true
-    }
+    },
+    createdBy: {
+        type: String,
+        required: true
+    },
+    usersVoted: []
 });
 
 _mongoose2.default.model('Poll', pollSchema);

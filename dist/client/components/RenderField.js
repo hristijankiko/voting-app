@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _react = require('react');
+var _react = require("react");
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -20,20 +20,15 @@ var RenderField = function RenderField(_ref) {
       touched = _ref$meta.touched,
       error = _ref$meta.error;
   return _react2.default.createElement(
-    'div',
-    null,
+    "div",
+    { className: "inputField" },
     _react2.default.createElement(
-      'label',
+      "div",
       null,
-      label
-    ),
-    _react2.default.createElement(
-      'div',
-      null,
-      _react2.default.createElement('input', _extends({}, input, { type: type })),
+      _react2.default.createElement("input", _extends({}, input, { type: type, placeholder: label })),
       touched && error && _react2.default.createElement(
-        'span',
-        null,
+        "span",
+        { className: "formError" },
         error
       )
     )

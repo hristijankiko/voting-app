@@ -1,5 +1,6 @@
 import {connect} from 'react-redux';
 import PollInfo from '../components/PollInfo';
+import {attemptVote} from '../actions';
 
 const mapStateToProps = (state, ownProps) => {
     var poll;
@@ -11,7 +12,6 @@ const mapStateToProps = (state, ownProps) => {
         }
     }
 
-    console.log("Poll selected: " + ownProps.match.params.pollid);
     if(!poll) {
         return {};
     }
@@ -19,6 +19,7 @@ const mapStateToProps = (state, ownProps) => {
         _id: poll._id,
         name: poll.name,
         choices: poll.choices,
+        authUser: state.auth.username
     }
 }
 

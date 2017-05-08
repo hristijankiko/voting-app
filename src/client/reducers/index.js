@@ -5,10 +5,16 @@ import {
     INVALIDATE_POLLS,
     REQUEST_POLLS,
     RECIEVE_POLLS,
+    REQUEST_POLL_CREATE,
+    RECIEVE_POLL_CREATE,
     REQUEST_LOGIN,
     RECIEVE_LOGIN,
     REQUEST_REGISTER,
-    RECIEVE_REGISTER
+    RECIEVE_REGISTER,
+    REQUEST_VOTE,
+    RECIEVE_VOTE,
+    REQUEST_LOGOUT,
+    RECIEVE_LOGOUT
 } from '../actions';
 
 function authReducer(state = {}, action) {
@@ -22,7 +28,8 @@ function authReducer(state = {}, action) {
             return Object.assign({}, state, {
                 isFetching: false,
                 didInvalidate: false,
-                authData: action.authData
+                username: action.username,
+                isAuthenticated: action.isAuthenticated
             })
         case REQUEST_REGISTER:
             return Object.assign({}, state, {
@@ -31,8 +38,19 @@ function authReducer(state = {}, action) {
         case RECIEVE_REGISTER:
             return Object.assign({}, state, {
                 isFetching: false,
-                registerData: action.registerData
+                username: action.username,
+                isAuthenticated: action.isAuthenticated
             });
+        case REQUEST_LOGOUT:
+            return Object.assign({}, state, {
+                isFetching: true,
+            })
+        case RECIEVE_LOGOUT:
+            return Object.assign({}, state, {
+                username: null,
+                isAuthenticated: false,
+                isFetching: false
+            })
         default:
             return state;
     }
@@ -58,6 +76,24 @@ function pollsReducer(state = {
                 isFetching: false,
                 didInvalidate: false,
                 items: action.results,
+            })
+        case REQUEST_POLL_CREATE:
+            return Object.assign({}, state, {
+                isFetching: true,
+                didInvalidate: false
+            })
+        case RECIEVE_POLL_CREATE:
+            return Object.assign({}, state, {
+                isFetching: false,
+                success: action.success
+            })
+        case REQUEST_VOTE:
+            return Object.assign({}, state, {
+                isFetching: true,
+            })
+        case RECIEVE_VOTE:
+            return Object.assign({}, state, {
+                isFetching: false,
             })
         default:
             return state;

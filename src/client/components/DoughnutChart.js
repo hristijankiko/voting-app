@@ -54,7 +54,7 @@ class DoughnutChart extends React.Component {
 
     render() {
         return (
-            <canvas id={this.props._id} width={this.props.width} height={this.props.height}></canvas>
+            <canvas className="doughnutChart" id={this.props._id} width={this.props.width} height={this.props.height}></canvas>
         );
     }
 }

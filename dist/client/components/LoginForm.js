@@ -8,6 +8,8 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouter = require('react-router');
+
 var _reduxForm = require('redux-form');
 
 var _isEmail = require('validator/lib/isEmail');
@@ -47,10 +49,12 @@ var LoginForm = function LoginForm(_ref) {
         onSubmit = _ref.onSubmit,
         _ref$errors = _ref.errors,
         errors = _ref$errors === undefined ? {} : _ref$errors,
-        submitting = _ref.submitting;
+        submitting = _ref.submitting,
+        isAuthenticated = _ref.isAuthenticated;
     return _react2.default.createElement(
         'form',
         { onSubmit: handleSubmit(onSubmit) },
+        isAuthenticated && _react2.default.createElement(_reactRouter.Redirect, { to: '/' }),
         _react2.default.createElement(
             'h2',
             null,
@@ -58,7 +62,7 @@ var LoginForm = function LoginForm(_ref) {
         ),
         _react2.default.createElement(_reduxForm.Field, { name: 'email', component: _RenderField2.default, type: 'email', label: 'Email' }),
         _react2.default.createElement(_reduxForm.Field, { name: 'password', component: _RenderField2.default, type: 'password', label: 'Password' }),
-        _react2.default.createElement(_Button2.default, { type: 'Submit', text: 'Register', disabled: submitting })
+        _react2.default.createElement(_Button2.default, { type: 'Submit', text: 'Login', disabled: submitting })
     );
 };
 

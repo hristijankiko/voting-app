@@ -10,6 +10,8 @@ var _PollInfo = require('../components/PollInfo');
 
 var _PollInfo2 = _interopRequireDefault(_PollInfo);
 
+var _actions = require('../actions');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var mapStateToProps = function mapStateToProps(state, ownProps) {
@@ -22,14 +24,14 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
         }
     }
 
-    console.log("Poll selected: " + ownProps.match.params.pollid);
     if (!poll) {
         return {};
     }
     return {
         _id: poll._id,
         name: poll.name,
-        choices: poll.choices
+        choices: poll.choices,
+        authUser: state.auth.username
     };
 };
 

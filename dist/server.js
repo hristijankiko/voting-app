@@ -66,11 +66,6 @@ app.use('/static', express.static(_path2.default.join(__dirname, 'public')));
 
 app.use('/api', routesApi);
 
-app.post('/register', function (req, res) {
-    console.log(req.body);
-    console.log("REGISTERING REGISTERING REGISTERING");
-});
-
 // Init passport authentication
 
 
@@ -78,6 +73,6 @@ app.get('/*', function (req, res) {
     res.render("index");
 });
 
-app.listen(3000 || process.env.PORT, function (req, res) {
+app.listen(process.env.PORT || 3000, function (req, res) {
     console.log("Server is listening at port 3000");
 });

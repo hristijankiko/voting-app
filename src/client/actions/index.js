@@ -16,13 +16,9 @@ export const RECIEVE_VOTE = 'RECIEVE_VOTE';
 export const REQUEST_LOGOUT = 'REQUEST_LOGOUT';
 export const RECIEVE_LOGOUT = 'RECIEVE_LOGOUT';
 
-host = "http://localhost:3000";
-
-if(process.env.NODE_ENV === 'production') {
-    var protocol = location.protocol;
-    var slashes = protocol.concat("//");
-    var host = slashes.concat(window.location.hostname);
-}
+var protocol = location.protocol;
+var slashes = protocol.concat("//");
+var host = slashes.concat(window.location.hostname);
 
 export function attemptVote(selectedPoll, selectedChoice, username) {
     let formBody = "votedChoice=" + selectedChoice;

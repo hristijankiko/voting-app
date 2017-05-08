@@ -43,12 +43,6 @@ app.use('/static', express.static(path.join(__dirname, 'public')))
 
 app.use('/api', routesApi);
 
-app.post('/register', function(req, res) {
-    console.log(req.body);
-    console.log("REGISTERING REGISTERING REGISTERING");
-});
-
-
 // Init passport authentication
 import './api/passport/init.js';
 

@@ -21,7 +21,7 @@ var protocol = location.protocol;
 var slashes = protocol.concat("//");
 var host = slashes.concat(window.location.hostname);
 
-var host = "http://localhost:3000";
+// var host = "http://localhost:3000";
 
 export function attemptVote(selectedPoll, selectedChoice, username) {
     let formBody = "votedChoice=" + selectedChoice;

@@ -28,9 +28,14 @@ var _isomorphicFetch = require('isomorphic-fetch');
 
 var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
+var _history = require('../history');
+
+var _history2 = _interopRequireDefault(_history);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var FETCH_POLLS = exports.FETCH_POLLS = 'FETCH_POLLS'; // Actions
+// Actions
+var FETCH_POLLS = exports.FETCH_POLLS = 'FETCH_POLLS';
 var INVALIDATE_POLLS = exports.INVALIDATE_POLLS = 'INVALIDATE_POLLS';
 var REQUEST_POLLS = exports.REQUEST_POLLS = 'REQUEST_POLLS';
 var RECIEVE_POLLS = exports.RECIEVE_POLLS = 'RECIEVE_POLLS';
@@ -186,7 +191,7 @@ function attemptPollCreate(data, username) {
     return function (dispatch) {
         dispatch(requestPollCreate());
         return (0, _isomorphicFetch2.default)(host + '/api/polls', {
-            credentials: 'same-origin',
+            credentials: 'include',
             method: 'POST',
             body: formBody,
             headers: {
@@ -198,6 +203,7 @@ function attemptPollCreate(data, username) {
         }).then(function (json) {
             dispatch(recievePollCreate(json));
             dispatch(fetchPolls());
+            _history2.default.push('/login');
         });
     };
 }

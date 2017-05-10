@@ -32,6 +32,7 @@ function pollsList(req, res) {
 }
 
 function createPoll(req, res) {
+    console.log("Creating poll");
     var choices = [];
     var formChoices = void 0;
 

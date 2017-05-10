@@ -17,6 +17,7 @@ export function pollsList(req, res){
 }
 
 export function createPoll(req, res){
+    console.log("Creating poll");
     let choices = [];
     let formChoices;
 

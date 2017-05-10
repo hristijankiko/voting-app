@@ -26,7 +26,6 @@ require('./api/passport/init.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var RedisStore = require('connect-redis')(_expressSession2.default);
 var express = require('express');
 var app = express();
 
@@ -46,7 +45,6 @@ app.use(_bodyParser2.default.json());
 app.use(_bodyParser2.default.urlencoded({ extended: true }));
 app.use((0, _expressSession2.default)({
     secret: 'keyboard cat',
-    store: new RedisStore(),
     resave: false,
     maxAge: 4 * 60 * 60 * 1000,
     saveUninitialized: true,

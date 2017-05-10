@@ -1,7 +1,7 @@
 import React from 'react';
 import {render} from 'react-dom';
 import {Provider} from 'react-redux';
-import {BrowserRouter as Router, Route, Link, Switch} from 'react-router-dom';
+import {Router, Route, Link, Switch} from 'react-router-dom';
 import {createStore, applyMiddleware} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import {createLogger} from 'redux-logger';
@@ -15,6 +15,7 @@ import PollListContainer from './containers/PollListContainer';
 import PollInfoContainer from './containers/PollInfoContainer';
 import ProfileContainer from './containers/ProfileContainer';
 import rootReducer from './reducers';
+import history from './history';
 import './css/style.sass';
 
 const loggerMiddleware = createLogger();
@@ -24,11 +25,11 @@ const store = createStore(rootReducer, applyMiddleware(
   loggerMiddleware
 ));
 
-store.dispatch(fetchPolls("asd"));
-
+store.dispatch(fetchPolls("asdf"));
+console.log(history);
 render(
   <Provider store={store}>
-    <Router>
+    <Router history={history}>
       <div>
         <NavigationContainer />
         <Switch>

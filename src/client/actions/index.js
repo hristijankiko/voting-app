@@ -1,5 +1,6 @@
 // Actions
 import fetch from 'isomorphic-fetch';
+import history from '../history';
 
 export const FETCH_POLLS = 'FETCH_POLLS';
 export const INVALIDATE_POLLS = 'INVALIDATE_POLLS';
@@ -20,7 +21,7 @@ var protocol = location.protocol;
 var slashes = protocol.concat("//");
 var host = slashes.concat(window.location.hostname);
 
-// var host = "http://localhost:3000";
+var host = "http://localhost:3000";
 
 export function attemptVote(selectedPoll, selectedChoice, username) {
     let formBody = "votedChoice=" + selectedChoice;
@@ -163,7 +164,7 @@ export function attemptPollCreate(data, username) {
     return function(dispatch) {
         dispatch(requestPollCreate());
         return fetch(host + '/api/polls', {
-            credentials: 'same-origin',
+            credentials: 'include',
             method: 'POST',
             body: formBody,
             headers: {
@@ -173,8 +174,9 @@ export function attemptPollCreate(data, username) {
          })
         .then(response => response.json())
         .then(json => {
-            dispatch(recievePollCreate(json))
-            dispatch(fetchPolls())
+            dispatch(recievePollCreate(json));
+            dispatch(fetchPolls());
+            history.push('/login');
         });
     }
 }

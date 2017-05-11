@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 
-module.exports = {
+const config = {
     entry: './src/client/app.js',
     output: {
         path: __dirname + '/dist/client/public',
@@ -27,8 +27,21 @@ module.exports = {
             }
         ]
     },
-    plugins:[
-        new webpack.optimize.UglifyJsPlugin({
-        })
+    plugins: [
+        new webpack.DefinePlugin({
+        "process.env" : {
+            "NODE_ENV": JSON.stringify(process.env.NODE_ENV)
+        }
+    }),
     ]
 }
+
+if(process.env.NODE_ENV === 'production') {
+    config.plugins.push(
+        new webpack.optimize.UglifyJsPlugin({
+            comments: false,
+        })
+    );
+}
+
+module.exports = config;

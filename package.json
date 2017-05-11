@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node dist/server.js",
-    "start-dev": "concurrently --kill-others \"webpack --watch\" \"babel src -d dist --ignore client/*.js --copy-files --watch\" \"nodemon dist/server.js --delay 2 --ignore src/\""
+    "start": "set NODE_ENV=production&&set MLAB_USERNAME=hristijankiko&&set MLAB_SECRET=test2&&node dist/server.js",
+    "start-dev": "set NODE_ENV=development&&concurrently --kill-others \"webpack --watch\" \"babel src -d dist --ignore client/*.js --copy-files --watch\" \"nodemon dist/server.js --delay 2 --ignore src/\""
   },
   "author": "Hristijan Gjorgjievski",
   "license": "ISC",

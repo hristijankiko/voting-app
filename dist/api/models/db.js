@@ -18,7 +18,9 @@ if (process.env.NODE_ENV === 'production') {
 
 _mongoose2.default.Promise = global.Promise;
 
-_mongoose2.default.connect(dbURI);
+_mongoose2.default.connect(dbURI).catch(function (err) {
+    console.log(err);
+});
 
 // Connection events
 _mongoose2.default.connection.on('connected', function () {

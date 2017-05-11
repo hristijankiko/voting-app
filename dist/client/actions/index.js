@@ -50,12 +50,13 @@ var RECIEVE_VOTE = exports.RECIEVE_VOTE = 'RECIEVE_VOTE';
 var REQUEST_LOGOUT = exports.REQUEST_LOGOUT = 'REQUEST_LOGOUT';
 var RECIEVE_LOGOUT = exports.RECIEVE_LOGOUT = 'RECIEVE_LOGOUT';
 
-// var protocol = location.protocol;
-// var slashes = protocol.concat("//");
-// var host = slashes.concat(window.location.hostname);
-
 var host = "http://localhost:3000";
 
+if (process.env.NODE_ENV === 'production') {
+    var protocol = location.protocol;
+    var slashes = protocol.concat("//");
+    host = slashes.concat(window.location.hostname);
+}
 function attemptVote(selectedPoll, selectedChoice, username) {
     var formBody = "votedChoice=" + selectedChoice;
 

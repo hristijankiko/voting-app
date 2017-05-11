@@ -8,7 +8,10 @@ if(process.env.NODE_ENV === 'production'){
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect(dbURI);
+mongoose.connect(dbURI)
+    .catch(err => {
+        console.log(err);
+    });
 
 // Connection events
 mongoose.connection.on('connected', function() {

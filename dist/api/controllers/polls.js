@@ -44,11 +44,11 @@ function createPoll(req, res) {
     // Create choice ojbects
     formChoices = req.body.choices.split(',');
     formChoices.forEach(function (choice) {
-        choices.push({ name: choice, votes: 0 });
+        choices.push({ name: choice.trim(), votes: 0 });
     });
     console.log(req.body);
     Poll.create({
-        name: req.body.name,
+        name: String(req.body.name).trim(),
         choices: choices,
         createdBy: req.user.username
     }, function (err, poll) {

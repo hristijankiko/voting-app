@@ -15,17 +15,13 @@ var _Poll2 = _interopRequireDefault(_Poll);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getUserPolls(polls, createdBy) {
-  console.log(createdBy);
   if (!createdBy) {
     return polls;
   }
 
   polls = polls.filter(function (poll) {
-    console.log(poll.createdBy);
     return poll.createdBy == createdBy;
   });
-
-  console.log(polls);
 
   return polls;
 }

@@ -6,16 +6,22 @@ import {
     REQUEST_POLLS,
     RECIEVE_POLLS,
     REQUEST_POLL_CREATE,
-    RECIEVE_POLL_CREATE,
+    RECIEVE_POLL_CREATE_SUCESS,
+    RECIEVE_POLL_CREATE_FAIL,
     REQUEST_LOGIN,
-    RECIEVE_LOGIN,
+    RECIEVE_LOGIN_SUCESS,
+    RECIEVE_LOGIN_FAIL,
     REQUEST_REGISTER,
-    RECIEVE_REGISTER,
+    RECIEVE_REGISTER_SUCESS,
+    RECIEVE_REGISTER_FAIL,
     REQUEST_VOTE,
     RECIEVE_VOTE,
     REQUEST_LOGOUT,
-    RECIEVE_LOGOUT
+    RECIEVE_LOGOUT,
+    ADD_ERROR,
+    DELETE_ERROR
 } from '../actions';
+let errId = 0;
 
 function authReducer(state = {}, action) {
     switch(action.type) {
@@ -24,23 +30,35 @@ function authReducer(state = {}, action) {
                 isFetching: true,
                 didInvalidate: false
             })
-        case RECIEVE_LOGIN:
+        case RECIEVE_LOGIN_SUCESS:
             return Object.assign({}, state, {
                 isFetching: false,
                 didInvalidate: false,
                 username: action.username,
                 isAuthenticated: action.isAuthenticated
             })
+        case RECIEVE_LOGIN_FAIL:
+            return Object.assign({}, state, {
+                isFetching: false,
+                didInvalidate: false,
+                isAuthenticated: false
+            })
         case REQUEST_REGISTER:
             return Object.assign({}, state, {
                 isFetching: true,
             });
-        case RECIEVE_REGISTER:
+        case RECIEVE_REGISTER_SUCESS:
             return Object.assign({}, state, {
                 isFetching: false,
                 username: action.username,
                 isAuthenticated: action.isAuthenticated
             });
+        case RECIEVE_REGISTER_FAIL:
+            return Object.assign({}, state, {
+                isFetching: false,
+                username: null,
+                isAuthenticated: false
+            })
         case REQUEST_LOGOUT:
             return Object.assign({}, state, {
                 isFetching: true,
@@ -82,10 +100,13 @@ function pollsReducer(state = {
                 isFetching: true,
                 didInvalidate: false
             })
-        case RECIEVE_POLL_CREATE:
+        case RECIEVE_POLL_CREATE_SUCESS:
             return Object.assign({}, state, {
                 isFetching: false,
-                success: action.success
+            })
+        case RECIEVE_POLL_CREATE_FAIL:
+            return Object.assign({}, state, {
+                isFetching: false,
             })
         case REQUEST_VOTE:
             return Object.assign({}, state, {
@@ -100,10 +121,26 @@ function pollsReducer(state = {
     }
 }
 
+function errorReducer(state = {}, action) {
+    switch(action.type) {
+        case ADD_ERROR:
+            return {
+                message: action.message
+            }
+        case DELETE_ERROR:
+            return {
+
+            }
+        default:
+            return state;
+    }
+}
+
 const rootReducer = combineReducers({
     auth: authReducer,
     polls: pollsReducer,
-    form: formReducer
+    form: formReducer,
+    error: errorReducer
 });
 
 export default rootReducer;

@@ -3,6 +3,7 @@ import {Redirect} from 'react-router';
 import {Field, reduxForm} from 'redux-form';
 import Button from './Button';
 import RenderField from './RenderField';
+import ErrorMessageContainer from '../containers/ErrorMessageContainer';
 
 const validate = values => {
     const errors = {}
@@ -22,18 +23,19 @@ const validate = values => {
     return errors;
 }
 
-let CreatePollForm = ({handleSubmit, onSubmit, errors = {}, submitting, isAuthenticated}) => (
-
-    <form onSubmit={handleSubmit(onSubmit)}>
-        {console.log(isAuthenticated)}
+let CreatePollForm = ({handleSubmit, onSubmit, err = {}, isFetching = false, isAuthenticated}) => (
+    <div>
         {!isAuthenticated && <Redirect to="/login" />}
-        <h2>Create Poll</h2>
-        
-        <Field name="name" component={RenderField} type="name" label="Name"/>
-        <Field name="choices" component={RenderField} type="choices" label="Choices"/>
+        {err.message && <ErrorMessageContainer message={err.message} />}
 
-        <Button type="Submit" text="Create" disabled={submitting} />
-    </form>
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <h2>Create Poll</h2>
+            
+            <Field name="name" component={RenderField} type="name" label="Name"/>
+            <Field name="choices" component={RenderField} type="choices" label="Choices"/>
+            <Button type="Submit" text="Create" disabled={isFetching} />
+        </form>
+    </div>
 );
 
 CreatePollForm = reduxForm({

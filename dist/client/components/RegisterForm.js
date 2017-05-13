@@ -24,6 +24,10 @@ var _Button = require('./Button');
 
 var _Button2 = _interopRequireDefault(_Button);
 
+var _ErrorMessageContainer = require('../containers/ErrorMessageContainer');
+
+var _ErrorMessageContainer2 = _interopRequireDefault(_ErrorMessageContainer);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var validate = function validate(values) {
@@ -53,23 +57,29 @@ var validate = function validate(values) {
 var RegisterForm = function RegisterForm(_ref) {
     var handleSubmit = _ref.handleSubmit,
         onSubmit = _ref.onSubmit,
-        _ref$errors = _ref.errors,
-        errors = _ref$errors === undefined ? {} : _ref$errors,
-        submitting = _ref.submitting,
+        _ref$err = _ref.err,
+        err = _ref$err === undefined ? {} : _ref$err,
+        _ref$isFetching = _ref.isFetching,
+        isFetching = _ref$isFetching === undefined ? false : _ref$isFetching,
         isAuthenticated = _ref.isAuthenticated;
     return _react2.default.createElement(
-        'form',
-        { onSubmit: handleSubmit(onSubmit) },
+        'div',
+        null,
         isAuthenticated && _react2.default.createElement(_reactRouter.Redirect, { to: '/' }),
+        err.message && _react2.default.createElement(_ErrorMessageContainer2.default, { message: err.message }),
         _react2.default.createElement(
-            'h2',
-            null,
-            'Register'
-        ),
-        _react2.default.createElement(_reduxForm.Field, { name: 'username', component: _RenderField2.default, type: 'text', label: 'Username' }),
-        _react2.default.createElement(_reduxForm.Field, { name: 'email', component: _RenderField2.default, type: 'email', label: 'Email' }),
-        _react2.default.createElement(_reduxForm.Field, { name: 'password', component: _RenderField2.default, type: 'password', label: 'Password' }),
-        _react2.default.createElement(_Button2.default, { type: 'Submit', text: 'Register', disabled: submitting })
+            'form',
+            { onSubmit: handleSubmit(onSubmit) },
+            _react2.default.createElement(
+                'h2',
+                null,
+                'Register'
+            ),
+            _react2.default.createElement(_reduxForm.Field, { name: 'username', component: _RenderField2.default, type: 'text', label: 'Username' }),
+            _react2.default.createElement(_reduxForm.Field, { name: 'email', component: _RenderField2.default, type: 'email', label: 'Email' }),
+            _react2.default.createElement(_reduxForm.Field, { name: 'password', component: _RenderField2.default, type: 'password', label: 'Password' }),
+            _react2.default.createElement(_Button2.default, { type: 'Submit', text: 'Register', disabled: isFetching })
+        )
     );
 };
 

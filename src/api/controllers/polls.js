@@ -22,7 +22,7 @@ export function createPoll(req, res){
     let formChoices;
 
     if(!req.body.choices || !req.body.name){
-        sendJsonResponse(res, 400, {error: 'Missing choices or name'});
+        sendJsonResponse(res, 400, {error: true, message: 'Missing choices or name'});
         return;
     }
 
@@ -38,7 +38,7 @@ export function createPoll(req, res){
         createdBy: req.user.username
     }, function(err, poll){
         if(err){
-            res.send(err);
+            sendJsonResponse(res, 300, {error: true, message: "Could not create poll"});
             return;
         }
         sendJsonResponse(res, 201, poll);

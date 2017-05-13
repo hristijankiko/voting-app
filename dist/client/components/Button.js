@@ -14,10 +14,12 @@ var Button = function Button(_ref) {
     var _ref$text = _ref.text,
         text = _ref$text === undefined ? "Button" : _ref$text,
         _ref$type = _ref.type,
-        type = _ref$type === undefined ? "button" : _ref$type;
+        type = _ref$type === undefined ? "button" : _ref$type,
+        _ref$disabled = _ref.disabled,
+        disabled = _ref$disabled === undefined ? false : _ref$disabled;
     return _react2.default.createElement(
         "button",
-        { type: type },
+        { type: type, disabled: disabled },
         text
     );
 };

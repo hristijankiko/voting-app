@@ -20,6 +20,10 @@ var _RenderField = require('./RenderField');
 
 var _RenderField2 = _interopRequireDefault(_RenderField);
 
+var _ErrorMessageContainer = require('../containers/ErrorMessageContainer');
+
+var _ErrorMessageContainer2 = _interopRequireDefault(_ErrorMessageContainer);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var validate = function validate(values) {
@@ -43,23 +47,28 @@ var validate = function validate(values) {
 var CreatePollForm = function CreatePollForm(_ref) {
     var handleSubmit = _ref.handleSubmit,
         onSubmit = _ref.onSubmit,
-        _ref$errors = _ref.errors,
-        errors = _ref$errors === undefined ? {} : _ref$errors,
-        submitting = _ref.submitting,
+        _ref$err = _ref.err,
+        err = _ref$err === undefined ? {} : _ref$err,
+        _ref$isFetching = _ref.isFetching,
+        isFetching = _ref$isFetching === undefined ? false : _ref$isFetching,
         isAuthenticated = _ref.isAuthenticated;
     return _react2.default.createElement(
-        'form',
-        { onSubmit: handleSubmit(onSubmit) },
-        console.log(isAuthenticated),
+        'div',
+        null,
         !isAuthenticated && _react2.default.createElement(_reactRouter.Redirect, { to: '/login' }),
+        err.message && _react2.default.createElement(_ErrorMessageContainer2.default, { message: err.message }),
         _react2.default.createElement(
-            'h2',
-            null,
-            'Create Poll'
-        ),
-        _react2.default.createElement(_reduxForm.Field, { name: 'name', component: _RenderField2.default, type: 'name', label: 'Name' }),
-        _react2.default.createElement(_reduxForm.Field, { name: 'choices', component: _RenderField2.default, type: 'choices', label: 'Choices' }),
-        _react2.default.createElement(_Button2.default, { type: 'Submit', text: 'Create', disabled: submitting })
+            'form',
+            { onSubmit: handleSubmit(onSubmit) },
+            _react2.default.createElement(
+                'h2',
+                null,
+                'Create Poll'
+            ),
+            _react2.default.createElement(_reduxForm.Field, { name: 'name', component: _RenderField2.default, type: 'name', label: 'Name' }),
+            _react2.default.createElement(_reduxForm.Field, { name: 'choices', component: _RenderField2.default, type: 'choices', label: 'Choices' }),
+            _react2.default.createElement(_Button2.default, { type: 'Submit', text: 'Create', disabled: isFetching })
+        )
     );
 };
 

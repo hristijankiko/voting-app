@@ -31,6 +31,7 @@ var mapStateToProps = function mapStateToProps(state, ownProps) {
         _id: poll._id,
         name: poll.name,
         choices: poll.choices,
+        usersVoted: poll.usersVoted,
         authUser: state.auth.username
     };
 };

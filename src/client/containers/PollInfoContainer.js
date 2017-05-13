@@ -19,7 +19,8 @@ const mapStateToProps = (state, ownProps) => {
         _id: poll._id,
         name: poll.name,
         choices: poll.choices,
-        authUser: state.auth.username
+        usersVoted: poll.usersVoted,
+        authUser: state.auth.username,
     }
 }
 

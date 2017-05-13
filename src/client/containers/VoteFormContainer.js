@@ -2,6 +2,12 @@ import {connect} from 'react-redux';
 import {attemptVote} from '../actions';
 import VoteForm from '../components/VoteForm';
 
+const mapStateToProps = (state, ownProps) => {
+    return {
+        isFetching: state.polls.isFetching
+    }
+}
+
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         onVoteSubmit: ({voteChoice}) => {
@@ -11,7 +17,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 const VoteFormContainer = connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
 )(VoteForm);
 

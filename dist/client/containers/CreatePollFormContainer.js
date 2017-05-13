@@ -21,7 +21,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var mapStateToProps = function mapStateToProps(state, ownProps) {
     return {
         username: state.auth.username,
-        isAuthenticated: state.auth.isAuthenticated
+        isAuthenticated: state.auth.isAuthenticated,
+        err: state.auth.error,
+        isFetching: state.polls.isFetching
     };
 };
 
@@ -36,6 +38,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 var mergeProps = function mergeProps(stateProps, dispatchProps, ownProps) {
     return Object.assign({}, ownProps, {
         isAuthenticated: stateProps.isAuthenticated,
+        isFetching: stateProps.isFetching,
+        err: stateProps.err,
+        username: stateProps.username,
         onSubmit: function onSubmit(data) {
             return dispatchProps.attemptPollCreate(data, stateProps.username);
         }

@@ -57,6 +57,10 @@ button[type="submit"]:hover
     -webkit-transition: all 0.40s ease-out
     transition: all 0.40s ease-out
 
+button[type="submit"]:disabled
+    opacity: .5
+    box-shadow: none
+
 input:hover, input:focus
     opacity: .7
     color: #08c
@@ -186,3 +190,31 @@ form h2
     font-size: 35px
     text-align: center
     line-height: 20px
+
+.errorMessage
+    position: relative
+    width: 70%
+    margin: 0 auto
+    background-color: #F7333D
+    border-radius: 1em
+    padding: 10px
+    color: white
+    box-shadow: 1px 1px 5px #222222
+    
+    h3
+        margin: 1.1em 0.2em
+
+    button
+        position: absolute
+        right: 5px
+        top: 7px
+        background-color: #F7333D
+        border: none
+        font-size: 2em
+        padding: 0
+        line-height: 0.5
+        overflow: hidden
+
+        &:hover
+            color: #555555
+            transition: .2s

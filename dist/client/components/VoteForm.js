@@ -26,7 +26,9 @@ var VoteForm = function VoteForm(_ref) {
         handleSubmit = _ref.handleSubmit,
         authUser = _ref.authUser,
         onVoteSubmit = _ref.onVoteSubmit,
-        pollId = _ref.pollId;
+        pollId = _ref.pollId,
+        _ref$isFetching = _ref.isFetching,
+        isFetching = _ref$isFetching === undefined ? false : _ref$isFetching;
     return _react2.default.createElement(
         'form',
         { onSubmit: handleSubmit(onVoteSubmit), className: 'voteForm' },
@@ -42,7 +44,7 @@ var VoteForm = function VoteForm(_ref) {
                 return _react2.default.createElement(_reduxForm.Field, { key: choice._id, component: _RadioButton2.default, _id: choice._id, pollId: pollId, label: choice.name, id: choice._id, name: 'voteChoice', value: choice.name });
             })
         ),
-        _react2.default.createElement(_Button2.default, { type: 'submit', text: 'vote' })
+        _react2.default.createElement(_Button2.default, { type: 'submit', text: 'vote', disabled: isFetching })
     );
 };
 

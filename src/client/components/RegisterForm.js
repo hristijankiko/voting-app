@@ -4,6 +4,7 @@ import {Field, reduxForm} from 'redux-form'
 import isEmail from 'validator/lib/isEmail';
 import RenderField from './RenderField';
 import Button from './Button';
+import ErrorMessageContainer from '../containers/ErrorMessageContainer';
 
 const validate = values => {
     const errors = {}
@@ -29,20 +30,20 @@ const validate = values => {
     return errors;
 }
 
-let RegisterForm = ({handleSubmit, onSubmit, errors = {}, submitting, isAuthenticated }) => (
-    <form onSubmit={handleSubmit(onSubmit)}>
+let RegisterForm = ({handleSubmit, onSubmit, err = {}, isFetching = false, isAuthenticated }) => (
+    <div>
         {isAuthenticated && <Redirect to="/" />}
-        <h2>Register</h2>
-                
-        <Field name="username" component={RenderField} type="text" label="Username" />
+        {err.message && <ErrorMessageContainer message={err.message} />}
 
-        <Field name="email" component={RenderField} type="email" label="Email"/>
-
-        <Field name="password" component={RenderField} type="password" label="Password"/>
-
-        <Button type="Submit" text="Register" disabled={submitting} />
-        
-    </form>
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <h2>Register</h2>
+            
+            <Field name="username" component={RenderField} type="text" label="Username" />
+            <Field name="email" component={RenderField} type="email" label="Email"/>
+            <Field name="password" component={RenderField} type="password" label="Password"/>
+            <Button type="Submit" text="Register" disabled={isFetching} />
+        </form>
+    </div>
 );
 
 RegisterForm = reduxForm({

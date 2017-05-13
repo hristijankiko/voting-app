@@ -15,7 +15,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function mapStateToProps(state, ownProps) {
     return {
         createdBy: state.auth.username,
-        polls: state.polls.items
+        polls: state.polls.items,
+        isAuthenticated: state.auth.isAuthenticated
     };
 }
 

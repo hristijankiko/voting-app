@@ -4,7 +4,7 @@ function authenticationMiddleware(req, res, next) {
     }
     res.status(401);
     res.json({
-        error: "authentication required",
+        message: "Authentication required",
     });
 }
 

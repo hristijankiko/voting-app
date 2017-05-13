@@ -7,15 +7,20 @@ export const INVALIDATE_POLLS = 'INVALIDATE_POLLS';
 export const REQUEST_POLLS = 'REQUEST_POLLS';
 export const RECIEVE_POLLS = 'RECIEVE_POLLS';
 export const REQUEST_POLL_CREATE = 'REQUEST_POLL_CREATE';
-export const RECIEVE_POLL_CREATE = 'RECIEVE_POLL_CREATE';
+export const RECIEVE_POLL_CREATE_SUCESS = 'RECIEVE_POLL_CREATE_SUCESS';
+export const RECIEVE_POLL_CREATE_FAIL = 'RECIEVE_POLL_CREATE_FAIL';
 export const REQUEST_LOGIN = 'REQUEST_LOGIN';
-export const RECIEVE_LOGIN = 'RECIEVE_LOGIN';
+export const RECIEVE_LOGIN_SUCESS = 'RECIEVE_LOGIN_SUCESS';
+export const RECIEVE_LOGIN_FAIL = 'RECIEVE_LOGIN_FAIL';
 export const REQUEST_REGISTER = 'REQUEST_REGISTER';
-export const RECIEVE_REGISTER = 'RECIEVE_REGISTER';
+export const RECIEVE_REGISTER_SUCESS = 'RECIEVE_REGISTER_SUCESS';
+export const RECIEVE_REGISTER_FAIL = 'RECIEVE_REGISTER_FAIL';
 export const REQUEST_VOTE = 'REQUEST_VOTE';
 export const RECIEVE_VOTE = 'RECIEVE_VOTE';
 export const REQUEST_LOGOUT = 'REQUEST_LOGOUT';
 export const RECIEVE_LOGOUT = 'RECIEVE_LOGOUT';
+export const ADD_ERROR = 'ADD_ERROR';
+export const DELETE_ERROR = 'DELETE_ERROR';
 
 var host = "http://localhost:3000";
 
@@ -89,10 +94,21 @@ export function attemptLogin(data) {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         })
-        .then(response => response.json())
-        .then(json => 
-            dispatch(recieveLogin(json))
-        );
+        .then(response => response.json()
+            .catch(() => {
+                dispatch(recieveLoginFail());
+                dispatch(addError({message: "Incorrect email or password"}));
+            })
+        )
+        .then(json => {
+            if(json) {
+                dispatch(recieveLoginSucess(json));
+            }
+        })
+        .catch(response => {
+            dispatch(recieveLoginFail());
+            dispatch(addError({message: "Could not log in"}));
+        });
     }
 }
 
@@ -117,19 +133,22 @@ export function attemptRegister(data) {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
          })
-        .then(response => {
-            if(response.status === 200) {
-                console.log(response);
-                return response.json()
-            } else {
-                console.log("Error, user not created");
-            }})
-        .then(json =>{
-            console.log(json);
-            dispatch(recieveRegister(json))
-
-        }
-        );
+        .then(response => response.json())
+        .then(json => {
+            if(json) {
+                if(json.error) {
+                    dispatch(recieveRegisterFail())
+                    dispatch(addError(json));
+                    return;
+                }
+                console.log(json);
+                dispatch(recieveRegisterSucess(json))
+            }
+        })
+        .catch(() => {
+            dispatch(recieveRegisterFail());
+            dispatch(addError({message: "Unable to register"}));
+        });
     }
 }
 
@@ -160,7 +179,6 @@ export function attemptPollCreate(data, username) {
     }
     formBody = formBody.join("&");
     formBody += "&createdBy=" + username;
-    console.log(formBody);
 
     return function(dispatch) {
         dispatch(requestPollCreate());
@@ -175,9 +193,20 @@ export function attemptPollCreate(data, username) {
          })
         .then(response => response.json())
         .then(json => {
-            dispatch(recievePollCreate(json));
-            dispatch(fetchPolls());
-            history.push('/login');
+            if(json) {
+                if(json.error) {
+                    dispatch(recievePollCreateFail());
+                    dispatch(addError(json));
+                    return;
+                }
+                dispatch(recievePollCreateSucess(json));
+                dispatch(fetchPolls());
+                history.push('/');
+            }
+        })
+        .catch(() => {
+            dispatch(recievePollCreateFail());
+            dispatch(addError(json));
         });
     }
 }
@@ -207,14 +236,15 @@ export function requestPollCreate() {
     }
 }
 
-export function recievePollCreate(poll) {
-    let success = true;
-    if(!poll.choices) {
-        success = false;
-    }
+export function recievePollCreateSucess(poll) {
     return {
-        type: RECIEVE_POLL_CREATE,
-        success: success
+        type: RECIEVE_POLL_CREATE_SUCESS,
+    }
+}
+
+export function recievePollCreateFail() {
+    return {
+        type: RECIEVE_POLL_CREATE_FAIL,
     }
 }
 
@@ -224,25 +254,37 @@ export function requestLogin() {
     }
 }
 
-export function recieveLogin(json) {
+export function recieveLoginSucess(json) {
     return {
-        type: RECIEVE_LOGIN,
+        type: RECIEVE_LOGIN_SUCESS,
         username: json.username,
         isAuthenticated: true,
     }
 }
 
-export function requestRegister() {
+export function recieveLoginFail() {
     return {
-        type: REQUEST_REGISTER
+        type: RECIEVE_LOGIN_FAIL,
     }
 }
 
-export function recieveRegister(json) {
+export function requestRegister() {
     return {
-        type: RECIEVE_REGISTER,
+        type: REQUEST_REGISTER,
+    }
+}
+
+export function recieveRegisterSucess(json) {
+    return {
+        type: RECIEVE_REGISTER_SUCESS,
         username: json.username,
-        isAuthenticated: true
+        isAuthenticated: true,
+    }
+}
+
+export function recieveRegisterFail() {
+    return {
+        type: RECIEVE_REGISTER_FAIL,
     }
 }
 
@@ -268,5 +310,18 @@ export function recieveVote(json) {
     return {
         type: RECIEVE_VOTE,
         poll: json
+    }
+}
+
+export function addError(json) {
+    return {
+        type: ADD_ERROR,
+        message: json.message
+    }
+}
+
+export function deleteError(index) {
+    return {
+        type: DELETE_ERROR,
     }
 }

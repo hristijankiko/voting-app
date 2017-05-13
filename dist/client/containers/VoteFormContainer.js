@@ -14,6 +14,12 @@ var _VoteForm2 = _interopRequireDefault(_VoteForm);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var mapStateToProps = function mapStateToProps(state, ownProps) {
+    return {
+        isFetching: state.polls.isFetching
+    };
+};
+
 var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
     return {
         onVoteSubmit: function onVoteSubmit(_ref) {
@@ -24,6 +30,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
     };
 };
 
-var VoteFormContainer = (0, _reactRedux.connect)(null, mapDispatchToProps)(_VoteForm2.default);
+var VoteFormContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_VoteForm2.default);
 
 exports.default = VoteFormContainer;

@@ -37,12 +37,19 @@ function register(req, res) {
         password: req.body.password
     }, function (err, user) {
         if (err) {
-            console.log(err);
-            sendJsonResponse(res, 300, err);
+            if (err.code === 11000) {
+                if (String(err.message).search(/index: email/g) != -1) {
+                    sendJsonResponse(res, 300, { error: true, message: "Email already exists" });
+                    return;
+                } else if (String(err.message).search(/index: username/g) != -1) {
+                    sendJsonResponse(res, 300, { error: true, message: "Username already exists" });
+                    return;
+                }
+            } else {
+                sendJsonResponse(res, 300, err);
+            }
             return;
         }
-
-        console.log("Authenticationg");
         req.login(user, function (err) {
             if (err) {
                 console.log(err);

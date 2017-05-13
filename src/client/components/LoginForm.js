@@ -3,6 +3,7 @@ import {Redirect} from 'react-router';
 import {Field, reduxForm} from 'redux-form';
 import isEmail from 'validator/lib/isEmail';
 import Button from './Button';
+import ErrorMessageContainer from '../containers/ErrorMessageContainer';
 import RenderField from './RenderField';
 
 const validate = values => {
@@ -23,16 +24,20 @@ const validate = values => {
     return errors;
 }
 
-let LoginForm = ({handleSubmit, onSubmit, errors = {}, submitting, isAuthenticated}) => (
-    <form onSubmit={handleSubmit(onSubmit)}>
+let LoginForm = ({handleSubmit, onSubmit, err = {}, isFetching, isAuthenticated}) => (
+    <div>
         {isAuthenticated && <Redirect to="/" />}
-        <h2>Login</h2>
+        {err.message && <ErrorMessageContainer message={err.message}/>}
+        
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <h2>Login</h2>
 
-        <Field name="email" component={RenderField} type="email" label="Email"/>
-        <Field name="password" component={RenderField} type="password" label="Password"/>
+            <Field name="email" component={RenderField} type="email" label="Email"/>
+            <Field name="password" component={RenderField} type="password" label="Password"/>
 
-        <Button type="Submit" text="Login" disabled={submitting} />
-    </form>
+            <Button type="Submit" text="Login" disabled={isFetching} />
+        </form>
+    </div>
 );
 
 LoginForm = reduxForm({

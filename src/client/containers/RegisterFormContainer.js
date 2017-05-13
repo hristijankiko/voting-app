@@ -4,7 +4,9 @@ import {attemptRegister} from '../actions';
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        isAuthenticated: state.auth.isAuthenticated
+        isAuthenticated: state.auth.isAuthenticated,
+        err: state.error,
+        isFetching: state.auth.isFetching
     }
 }
 

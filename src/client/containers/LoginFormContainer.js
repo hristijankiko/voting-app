@@ -4,7 +4,9 @@ import {attemptLogin} from '../actions';
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        isAuthenticated: state.auth.isAuthenticated
+        isAuthenticated: state.auth.isAuthenticated,
+        err: state.error,
+        isFetching: state.auth.isFetching
     }
 }
 
@@ -19,6 +21,6 @@ const mapDispatchToProps = (dispatch) => {
 const LoginFormContainer = connect(
     mapStateToProps,
     mapDispatchToProps
-)(LoginForm)
+)(LoginForm);
 
 export default LoginFormContainer;

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.RECIEVE_LOGOUT = exports.REQUEST_LOGOUT = exports.RECIEVE_VOTE = exports.REQUEST_VOTE = exports.RECIEVE_REGISTER = exports.REQUEST_REGISTER = exports.RECIEVE_LOGIN = exports.REQUEST_LOGIN = exports.RECIEVE_POLL_CREATE = exports.REQUEST_POLL_CREATE = exports.RECIEVE_POLLS = exports.REQUEST_POLLS = exports.INVALIDATE_POLLS = exports.FETCH_POLLS = undefined;
+exports.DELETE_ERROR = exports.ADD_ERROR = exports.RECIEVE_LOGOUT = exports.REQUEST_LOGOUT = exports.RECIEVE_VOTE = exports.REQUEST_VOTE = exports.RECIEVE_REGISTER_FAIL = exports.RECIEVE_REGISTER_SUCESS = exports.REQUEST_REGISTER = exports.RECIEVE_LOGIN_FAIL = exports.RECIEVE_LOGIN_SUCESS = exports.REQUEST_LOGIN = exports.RECIEVE_POLL_CREATE_FAIL = exports.RECIEVE_POLL_CREATE_SUCESS = exports.REQUEST_POLL_CREATE = exports.RECIEVE_POLLS = exports.REQUEST_POLLS = exports.INVALIDATE_POLLS = exports.FETCH_POLLS = undefined;
 exports.attemptVote = attemptVote;
 exports.fetchPolls = fetchPolls;
 exports.attemptLogin = attemptLogin;
@@ -14,15 +14,20 @@ exports.invalidatePolls = invalidatePolls;
 exports.requestPolls = requestPolls;
 exports.recievePolls = recievePolls;
 exports.requestPollCreate = requestPollCreate;
-exports.recievePollCreate = recievePollCreate;
+exports.recievePollCreateSucess = recievePollCreateSucess;
+exports.recievePollCreateFail = recievePollCreateFail;
 exports.requestLogin = requestLogin;
-exports.recieveLogin = recieveLogin;
+exports.recieveLoginSucess = recieveLoginSucess;
+exports.recieveLoginFail = recieveLoginFail;
 exports.requestRegister = requestRegister;
-exports.recieveRegister = recieveRegister;
+exports.recieveRegisterSucess = recieveRegisterSucess;
+exports.recieveRegisterFail = recieveRegisterFail;
 exports.requestLogout = requestLogout;
 exports.recieveLogout = recieveLogout;
 exports.requestVote = requestVote;
 exports.recieveVote = recieveVote;
+exports.addError = addError;
+exports.deleteError = deleteError;
 
 var _isomorphicFetch = require('isomorphic-fetch');
 
@@ -40,15 +45,20 @@ var INVALIDATE_POLLS = exports.INVALIDATE_POLLS = 'INVALIDATE_POLLS';
 var REQUEST_POLLS = exports.REQUEST_POLLS = 'REQUEST_POLLS';
 var RECIEVE_POLLS = exports.RECIEVE_POLLS = 'RECIEVE_POLLS';
 var REQUEST_POLL_CREATE = exports.REQUEST_POLL_CREATE = 'REQUEST_POLL_CREATE';
-var RECIEVE_POLL_CREATE = exports.RECIEVE_POLL_CREATE = 'RECIEVE_POLL_CREATE';
+var RECIEVE_POLL_CREATE_SUCESS = exports.RECIEVE_POLL_CREATE_SUCESS = 'RECIEVE_POLL_CREATE_SUCESS';
+var RECIEVE_POLL_CREATE_FAIL = exports.RECIEVE_POLL_CREATE_FAIL = 'RECIEVE_POLL_CREATE_FAIL';
 var REQUEST_LOGIN = exports.REQUEST_LOGIN = 'REQUEST_LOGIN';
-var RECIEVE_LOGIN = exports.RECIEVE_LOGIN = 'RECIEVE_LOGIN';
+var RECIEVE_LOGIN_SUCESS = exports.RECIEVE_LOGIN_SUCESS = 'RECIEVE_LOGIN_SUCESS';
+var RECIEVE_LOGIN_FAIL = exports.RECIEVE_LOGIN_FAIL = 'RECIEVE_LOGIN_FAIL';
 var REQUEST_REGISTER = exports.REQUEST_REGISTER = 'REQUEST_REGISTER';
-var RECIEVE_REGISTER = exports.RECIEVE_REGISTER = 'RECIEVE_REGISTER';
+var RECIEVE_REGISTER_SUCESS = exports.RECIEVE_REGISTER_SUCESS = 'RECIEVE_REGISTER_SUCESS';
+var RECIEVE_REGISTER_FAIL = exports.RECIEVE_REGISTER_FAIL = 'RECIEVE_REGISTER_FAIL';
 var REQUEST_VOTE = exports.REQUEST_VOTE = 'REQUEST_VOTE';
 var RECIEVE_VOTE = exports.RECIEVE_VOTE = 'RECIEVE_VOTE';
 var REQUEST_LOGOUT = exports.REQUEST_LOGOUT = 'REQUEST_LOGOUT';
 var RECIEVE_LOGOUT = exports.RECIEVE_LOGOUT = 'RECIEVE_LOGOUT';
+var ADD_ERROR = exports.ADD_ERROR = 'ADD_ERROR';
+var DELETE_ERROR = exports.DELETE_ERROR = 'DELETE_ERROR';
 
 var host = "http://localhost:3000";
 
@@ -120,9 +130,17 @@ function attemptLogin(data) {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(function (response) {
-            return response.json();
+            return response.json().catch(function () {
+                dispatch(recieveLoginFail());
+                dispatch(addError({ message: "Incorrect email or password" }));
+            });
         }).then(function (json) {
-            return dispatch(recieveLogin(json));
+            if (json) {
+                dispatch(recieveLoginSucess(json));
+            }
+        }).catch(function (response) {
+            dispatch(recieveLoginFail());
+            dispatch(addError({ message: "Could not log in" }));
         });
     };
 }
@@ -148,15 +166,20 @@ function attemptRegister(data) {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(function (response) {
-            if (response.status === 200) {
-                console.log(response);
-                return response.json();
-            } else {
-                console.log("Error, user not created");
-            }
+            return response.json();
         }).then(function (json) {
-            console.log(json);
-            dispatch(recieveRegister(json));
+            if (json) {
+                if (json.error) {
+                    dispatch(recieveRegisterFail());
+                    dispatch(addError(json));
+                    return;
+                }
+                console.log(json);
+                dispatch(recieveRegisterSucess(json));
+            }
+        }).catch(function () {
+            dispatch(recieveRegisterFail());
+            dispatch(addError({ message: "Unable to register" }));
         });
     };
 }
@@ -187,7 +210,6 @@ function attemptPollCreate(data, username) {
     }
     formBody = formBody.join("&");
     formBody += "&createdBy=" + username;
-    console.log(formBody);
 
     return function (dispatch) {
         dispatch(requestPollCreate());
@@ -202,9 +224,19 @@ function attemptPollCreate(data, username) {
         }).then(function (response) {
             return response.json();
         }).then(function (json) {
-            dispatch(recievePollCreate(json));
-            dispatch(fetchPolls());
-            _history2.default.push('/login');
+            if (json) {
+                if (json.error) {
+                    dispatch(recievePollCreateFail());
+                    dispatch(addError(json));
+                    return;
+                }
+                dispatch(recievePollCreateSucess(json));
+                dispatch(fetchPolls());
+                _history2.default.push('/');
+            }
+        }).catch(function () {
+            dispatch(recievePollCreateFail());
+            dispatch(addError(json));
         });
     };
 }
@@ -234,14 +266,15 @@ function requestPollCreate() {
     };
 }
 
-function recievePollCreate(poll) {
-    var success = true;
-    if (!poll.choices) {
-        success = false;
-    }
+function recievePollCreateSucess(poll) {
     return {
-        type: RECIEVE_POLL_CREATE,
-        success: success
+        type: RECIEVE_POLL_CREATE_SUCESS
+    };
+}
+
+function recievePollCreateFail() {
+    return {
+        type: RECIEVE_POLL_CREATE_FAIL
     };
 }
 
@@ -251,11 +284,17 @@ function requestLogin() {
     };
 }
 
-function recieveLogin(json) {
+function recieveLoginSucess(json) {
     return {
-        type: RECIEVE_LOGIN,
+        type: RECIEVE_LOGIN_SUCESS,
         username: json.username,
         isAuthenticated: true
+    };
+}
+
+function recieveLoginFail() {
+    return {
+        type: RECIEVE_LOGIN_FAIL
     };
 }
 
@@ -265,11 +304,17 @@ function requestRegister() {
     };
 }
 
-function recieveRegister(json) {
+function recieveRegisterSucess(json) {
     return {
-        type: RECIEVE_REGISTER,
+        type: RECIEVE_REGISTER_SUCESS,
         username: json.username,
         isAuthenticated: true
+    };
+}
+
+function recieveRegisterFail() {
+    return {
+        type: RECIEVE_REGISTER_FAIL
     };
 }
 
@@ -295,5 +340,18 @@ function recieveVote(json) {
     return {
         type: RECIEVE_VOTE,
         poll: json
+    };
+}
+
+function addError(json) {
+    return {
+        type: ADD_ERROR,
+        message: json.message
+    };
+}
+
+function deleteError(index) {
+    return {
+        type: DELETE_ERROR
     };
 }

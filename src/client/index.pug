@@ -6,8 +6,31 @@ html
         link(rel="shortcut icon" href="/static/favico.ico")
         link(href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" rel="stylesheet")
         style(href="static/style.css" type="text/css" rel="stylesheet")
+        style.
+            #loading {
+                position: absolute;
+                font-size: 3.5em;
+                cursor: default;
+                letter-spacing: 0.1em;
+                color: #2196F3;
+                font-weight: bold;
+                top: 50%;
+                left: 50%;
+                text-shadow: 1px 1px 1px #222222;
+                transform: translate(-50%, -50%)
+            }
     body
-        div#root Loading...
+        div#root 
+            div(id="loading") Loading...
+
+        script.
+            var loading = document.getElementById('loading');
+            var text;
+            var dots = 0;
+            var load = window.setInterval(function() {
+                    dots = (dots + 1) % 4;
+                    loading.innerHTML = "Loading" + '.'.repeat(dots) + "&nbsp".repeat(3 - dots);
+                }, 1000);
         script(type="text/javascript" src="/static/bundle.js")
         script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js")
         script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js")

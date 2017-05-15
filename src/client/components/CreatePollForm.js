@@ -32,7 +32,7 @@ let CreatePollForm = ({handleSubmit, onSubmit, err = {}, isFetching = false, isA
             <h2>Create Poll</h2>
             
             <Field name="name" component={RenderField} type="name" label="Name"/>
-            <Field name="choices" component={RenderField} type="choices" label="Choices"/>
+            <Field name="choices" component={RenderField} type="choices" label="Choices" placeholder="Choice1, Choice2, Choice3..."/>
             <Button type="Submit" text="Create" disabled={isFetching} />
         </form>
     </div>

@@ -66,7 +66,7 @@ var CreatePollForm = function CreatePollForm(_ref) {
                 'Create Poll'
             ),
             _react2.default.createElement(_reduxForm.Field, { name: 'name', component: _RenderField2.default, type: 'name', label: 'Name' }),
-            _react2.default.createElement(_reduxForm.Field, { name: 'choices', component: _RenderField2.default, type: 'choices', label: 'Choices' }),
+            _react2.default.createElement(_reduxForm.Field, { name: 'choices', component: _RenderField2.default, type: 'choices', label: 'Choices', placeholder: 'Choice1, Choice2, Choice3...' }),
             _react2.default.createElement(_Button2.default, { type: 'Submit', text: 'Create', disabled: isFetching })
         )
     );

@@ -16,6 +16,7 @@ var RenderField = function RenderField(_ref) {
   var input = _ref.input,
       label = _ref.label,
       type = _ref.type,
+      placeholder = _ref.placeholder,
       _ref$meta = _ref.meta,
       touched = _ref$meta.touched,
       error = _ref$meta.error;
@@ -25,7 +26,7 @@ var RenderField = function RenderField(_ref) {
     _react2.default.createElement(
       "div",
       null,
-      _react2.default.createElement("input", _extends({}, input, { type: type, placeholder: label })),
+      _react2.default.createElement("input", _extends({}, input, { type: type, placeholder: placeholder || label })),
       touched && error && _react2.default.createElement(
         "span",
         { className: "formError" },

@@ -15,6 +15,14 @@ class DoughnutChart extends React.Component {
         this.renderDoughnut(this.props);
     }
 
+    generateRandomColor() {
+        let color = ""
+        for(let i = 0; i < 6; i++) {
+            color += Number(Math.floor(Math.random() * 16)).toString(16);
+        }
+        return color;
+    }
+
     renderDoughnut() {
         // Check if data is recieved from the async call
         if(this.props.choices.length <= 0) {
@@ -23,11 +31,15 @@ class DoughnutChart extends React.Component {
 
         let ctx = document.getElementById(this.props._id);
         let labels = [];
-        let data = []
+        let data = [];
+        let colors = [];
         for(var i = 0; i < this.props.choices.length; i++) {
             labels.push(this.props.choices[i].name);
             data.push(this.props.choices[i].votes);
+            colors.push("#" + this.generateRandomColor());
         }
+
+        console.log(colors);
 
         var myChart = new Chart(ctx, {
             type: 'doughnut',
@@ -36,11 +48,7 @@ class DoughnutChart extends React.Component {
             datasets: [
                 {
                     data: data,
-                    backgroundColor: [
-                        "#FF6384",
-                        "#36A2EB",
-                        "#FFCE56"
-                    ]
+                    backgroundColor: colors
                 }]
             },
             options: {

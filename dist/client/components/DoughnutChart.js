@@ -45,6 +45,15 @@ var DoughnutChart = function (_React$Component) {
             this.renderDoughnut(this.props);
         }
     }, {
+        key: 'generateRandomColor',
+        value: function generateRandomColor() {
+            var color = "";
+            for (var i = 0; i < 6; i++) {
+                color += Number(Math.floor(Math.random() * 16)).toString(16);
+            }
+            return color;
+        }
+    }, {
         key: 'renderDoughnut',
         value: function renderDoughnut() {
             // Check if data is recieved from the async call
@@ -55,10 +64,14 @@ var DoughnutChart = function (_React$Component) {
             var ctx = document.getElementById(this.props._id);
             var labels = [];
             var data = [];
+            var colors = [];
             for (var i = 0; i < this.props.choices.length; i++) {
                 labels.push(this.props.choices[i].name);
                 data.push(this.props.choices[i].votes);
+                colors.push("#" + this.generateRandomColor());
             }
+
+            console.log(colors);
 
             var myChart = new _chart2.default(ctx, {
                 type: 'doughnut',
@@ -66,7 +79,7 @@ var DoughnutChart = function (_React$Component) {
                     labels: labels,
                     datasets: [{
                         data: data,
-                        backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"]
+                        backgroundColor: colors
                     }]
                 },
                 options: {

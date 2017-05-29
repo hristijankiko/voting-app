@@ -1,7 +1,3 @@
-a, a:hover, a:focus
-    color: white
-    text-decoration: none
-
 body
     font-family: 'Myriad Pro','Helvetica Neue', Helvetica
     margin: 0
@@ -10,6 +6,10 @@ body
 h1
     margin-bottom: 20px
     text-align: center
+
+h3
+    margin: 0
+    font-size: 18px
 
 ul
     list-style: none
@@ -25,6 +25,11 @@ fieldset
 legend
     font-size: 30px
     margin-bottom: 15px
+
+a, a:hover, a:focus
+    color: white
+    text-decoration: none
+
 
 input
     width: 100%
@@ -84,10 +89,6 @@ form
     margin: 0 auto
     padding: 0 10px
     text-align: center
-
-h3
-    margin: 0
-    font-size: 18px
 
 .navBar
     min-height: 3.3em
@@ -157,6 +158,13 @@ h3
     border: 1px solid #2196F3
     border-radius: 15px
     overflow: hidden
+    
+    &:hover
+        box-shadow: 1px 1px 3px #42A5F5
+        .pollName
+            background-color: #42A5F5
+        .voteNumber
+            background-color: #42A5F5
 
 .pollName
     background-color: #2196F3

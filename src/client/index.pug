@@ -7,6 +7,7 @@ html
         style(href="static/style.css" type="text/css" rel="stylesheet")
         style.
             #loading {
+                font-family: Helvetica, sans-serif;
                 position: absolute;
                 font-size: 3.5em;
                 cursor: default;
@@ -30,4 +31,4 @@ html
                     dots = (dots + 1) % 4;
                     loading.innerHTML = "Loading" + '.'.repeat(dots) + "&nbsp".repeat(3 - dots);
                 }, 1000);
-        script(type="text/javascript" src="/static/bundle.js")
+        //script(type="text/javascript" src="/static/bundle.js")
